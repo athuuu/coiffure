@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "911088989559",
+    "firebase_url": "https://coiffure-637c8-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "coiffure-637c8",
+    "storage_bucket": "coiffure-637c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911088989559:android:44f60bc49a7bc577711d72",
+        "android_client_info": {
+          "package_name": "com.example.coiffeur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911088989559-c3jdhcn1qjcdvmtkn9j2gljvqpum8d6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcgMqEOIx3fXKma_-9LfAdswRCAu-ZpJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911088989559-c3jdhcn1qjcdvmtkn9j2gljvqpum8d6m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911088989559-qojfu6cqbeauu7jv6r2nsq32l0n3u2st.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coiffeur"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
