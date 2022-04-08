@@ -68,7 +68,9 @@ class Inscription extends StatelessWidget {
                     border: OutlineInputBorder(),
                   )
                 ),
+              
                 ElevatedButton(
+                  
                   onPressed: () {
                     // envoie des données dans la base de donnée 
                   },
