@@ -1,7 +1,27 @@
+
+import 'package:coiffeur/pages/authentification/connexion.dart';
+import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Inscription extends StatelessWidget {
   const Inscription({ Key? key }) : super(key: key);
+
+  void loginToFirebase() {
+    try {
+      FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+          email: 'azerty@gmail.com',
+          password: 'azertyuiop')
+          .then((value) {
+            // ignore: avoid_print
+            print(value.toString());
+          });
+    }catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +88,20 @@ class Inscription extends StatelessWidget {
                     border: OutlineInputBorder(),
                   )
                 ),
-              
+                const SizedBox(height: 30),
                 ElevatedButton(
                   
                   onPressed: () {
-                    // envoie des données dans la base de donnée 
+                    loginToFirebase();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Connexion()));
                   },
-                  child: Text('Envoyer les données ')),
+                  child: const Text(
+                    'Envoyer les données '),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(secondarycolor))),
+
               ]
             ),
           ),

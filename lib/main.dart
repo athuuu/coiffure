@@ -1,5 +1,6 @@
 import 'package:coiffeur/pages/accueil.dart';
 import 'package:coiffeur/widgets/drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,16 @@ import 'package:flutter/material.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(const MyApp());
+  FirebaseAuth.instance.authStateChanges().listen((User? user) { 
+    if (user == null) {
+      // ignore: avoid_print
+      print('pas fais ');
+    }else {
+      // ignore: avoid_print
+      print('fais: ' + user.email!);
+    }
+  });
+      runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
