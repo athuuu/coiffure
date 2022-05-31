@@ -1,22 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/pages/boutique.dart';
 import 'package:coiffeur/utils/utils.dart';
-import 'package:coiffeur/widgets/choixprestation.dart';
+import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:flutter/material.dart';
 
-class PageChoixsoin extends StatefulWidget {
-  const PageChoixsoin({Key? key}) : super(key: key);
+class PageChoixPresta extends StatefulWidget {
+  const PageChoixPresta({Key? key}) : super(key: key);
 
   @override
-  State<PageChoixsoin> createState() => _PageChoixsoinState();
+  State<PageChoixPresta> createState() => _PageChoixPrestaState();
 }
 
-class _PageChoixsoinState extends State<PageChoixsoin> {
+class _PageChoixPrestaState extends State<PageChoixPresta> {
+  final CollectionReference _prestas =
+      FirebaseFirestore.instance.collection('prestas');
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(height: 30),
-      Container(
-        margin: const EdgeInsets.only(right: 130),
+      SizedBox(
         height: 40,
         width: 140,
         child: TextButton(
@@ -30,16 +32,14 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
               ),
               backgroundColor:
                   MaterialStateProperty.all<Color>(secondarycolor)),
-          child: Row(children: const [
-            Icon(Icons.add_circle_outline_outlined,
-                size: 30, color: primarycolor),
-            Text('Boutique',
+          child: const Center(
+            child: Text('Hommes',
                 style: TextStyle(
                   color: primarycolor,
                   fontSize: 20,
                   fontWeight: firstweight,
                 )),
-          ]),
+          ),
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Boutique()));
@@ -79,12 +79,12 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
               width: 30,
               height: 30,
               decoration: BoxDecoration(
-                color: primarycolor,
+                color: secondarycolor,
                 border: Border.all(color: secondarycolor),
                 borderRadius: BorderRadius.circular(50),
               ),
               child: const Center(
-                child: Text('2', style: TextStyle(color: secondarycolor)),
+                child: Text('2', style: TextStyle(color: primarycolor)),
               )),
           const SizedBox(
             child: Text('-------'),
@@ -93,12 +93,12 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
               width: 30,
               height: 30,
               decoration: BoxDecoration(
-                color: secondarycolor,
+                color: primarycolor,
                 border: Border.all(color: secondarycolor),
                 borderRadius: BorderRadius.circular(50),
               ),
               child: const Center(
-                  child: Text('3', style: TextStyle(color: primarycolor)))),
+                  child: Text('3', style: TextStyle(color: secondarycolor)))),
           const SizedBox(
             child: Text('-------'),
           ),
@@ -127,57 +127,55 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
                   child: Text('5', style: TextStyle(color: primarycolor)))),
         ],
       ),
-      const SizedBox(height: 150),
-      Padding(
-        padding: const EdgeInsets.only(left: 40.0),
-        child: SizedBox(
-          height: 80,
-          width: 350,
-          child: ElevatedButton(
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            bottomLeft: Radius.circular(40)))),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor)),
-            child: const Text('Homme', style: TextStyle(fontSize: 50)),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PageChoixPresta()));
-            },
-          ),
-        ),
-      ),
-      const SizedBox(height: 30),
-      Padding(
-        padding: const EdgeInsets.only(left: 40.0),
-        child: SizedBox(
-          height: 80,
-          width: 350,
-          child: ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            bottomLeft: Radius.circular(40)))),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor),
-              ),
-              child: const Text('Femme', style: TextStyle(fontSize: 50)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PageChoixPresta()));
-              }),
-        ),
-      ),
       const SizedBox(height: 40),
+      SizedBox(
+          width: 360,
+          height: 300,
+          child: StreamBuilder(
+              stream: _prestas.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                if (streamSnapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: streamSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final documentSnapshot =
+                            streamSnapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
+
+                        return Column(children: <Widget>[
+                          Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1, color: secondarycolor))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(documentSnapshot["prestation"]),
+                                Text(documentSnapshot["prix"].toString()),
+                                Text(documentSnapshot["temps"]),
+                                ElevatedButton(
+                                  child: const Text('choisir'),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const PageChoixHoraire()));
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              secondarycolor)),
+                                )
+                              ],
+                            ),
+                          )
+                        ]);
+                      });
+                }
+                return const Text("hi");
+              })),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
