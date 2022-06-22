@@ -136,7 +136,7 @@ class _ConnexionState extends State<Connexion> {
                   //   Navigator.push(
                   //     context,
                   //     MaterialPageRoute(builder: (context) => const MyApp()));
-                  // })  je laisse au cas où tu préfére ce bouton
+                  // })
                 ])))));
   }
 }

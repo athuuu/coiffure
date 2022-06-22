@@ -3,7 +3,6 @@ import 'package:coiffeur/model/rdv.dart';
 import 'package:coiffeur/widgets/rdv_form_widget.dart';
 import 'package:flutter/material.dart';
 
-
 class AddEditRdvPage extends StatefulWidget {
   final Rdv? rdv;
 
@@ -22,6 +21,8 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
   late String title;
   late String prestation;
   late String prenom;
+  late String adresse;
+  late String cpltadresse;
 
   @override
   void initState() {
@@ -31,24 +32,26 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
     createdTime = (widget.rdv?.createdTime ?? DateTime(0)) as int;
     prestation = widget.rdv?.prestation ?? '';
     prenom = widget.rdv?.prenom ?? '';
+    adresse = widget.rdv?.adresse ?? '';
+    cpltadresse = widget.rdv?.cpltadresse ?? '';
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          actions: [buildButton()],
+      appBar: AppBar(
+        actions: [buildButton()],
+      ),
+      body: Form(
+        key: _formKey,
+        child: RdvFormWidget(
+          prestation: prestation,
+          createdTime: createdTime,
+          nom: nom,
+          prenom: prenom,
+          adresse: adresse,
+          cpltadresse: cpltadresse,
         ),
-        body: Form(
-          key: _formKey,
-          child: RdvFormWidget(
-            prestation: prestation,
-            createdTime: createdTime,
-            nom: nom,
-            prenom: prenom,
-           
-        ),
-        )
-      );
+      ));
 
   Widget buildButton() {
     final isFormValid = title.isNotEmpty && prestation.isNotEmpty;
@@ -84,10 +87,12 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
 
   Future updateNote() async {
     final rdv = widget.rdv!.copy(
-      createdTime : DateTime.now(),
+      createdTime: DateTime.now(),
       prenom: prenom,
       prestation: prestation,
       nom: nom,
+      adresse: adresse,
+      cpltadresse: cpltadresse,
     );
 
     await SqfDatabase.instance.update(rdv);
@@ -98,8 +103,10 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
       prestation: prestation,
       createdTime: DateTime.now(),
       prenom: prenom,
-      nom: nom, 
+      nom: nom,
       number: 0,
+      adresse: adresse,
+      cpltadresse: cpltadresse,
     );
 
     await SqfDatabase.instance.create(rdv);

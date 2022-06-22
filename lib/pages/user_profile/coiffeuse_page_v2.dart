@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/main.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
-import 'package:coiffeur/pages/user_profile/numbers_widget2.dart';
+import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:coiffeur/pages/user_profile/user_pref.dart';
 import 'profile_widget.dart';
-import 'numbers_widget.dart';
+import 'coiffeuse_numbers_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserPageV2 extends StatefulWidget {
-  const UserPageV2({Key? key}) : super(key: key);
+class CoiffeusePageV2 extends StatefulWidget {
+  const CoiffeusePageV2({Key? key}) : super(key: key);
 
   @override
-  State<UserPageV2> createState() => _UserPageV2State();
+  State<CoiffeusePageV2> createState() => _CoiffeusePageV2State();
 }
 
-class _UserPageV2State extends State<UserPageV2> {
+class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
   get user => FirebaseAuth.instance.currentUser;
   final usered = UserPreferences.myUser;
   final CollectionReference _compte =
-      FirebaseFirestore.instance.collection('compte');
+      FirebaseFirestore.instance.collection('comptecoiffeuse');
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
@@ -101,8 +101,8 @@ class _UserPageV2State extends State<UserPageV2> {
                         const SizedBox(
                           height: 24,
                         ),
-                        const NumbersWidget(),
-                        const NumbersWidget2(),
+                        const CoiffeuseNumbersWidget(),
+                        const CoiffeuseNumbersWidget2(),
                         const SizedBox(
                           height: 48,
                         ),
@@ -217,12 +217,11 @@ class _UserPageV2State extends State<UserPageV2> {
                                     const SizedBox(
                                       height: 24,
                                     ),
-                                    const NumbersWidget(),
-                                    const NumbersWidget2(),
+                                    const CoiffeuseNumbersWidget(),
+                                    const CoiffeuseNumbersWidget2(),
                                     const SizedBox(
                                       height: 48,
                                     ),
-                                    buildAbout(),
                                   ]);
                                 }),
                           );

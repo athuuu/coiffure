@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/data/rdv_pages.dart';
-import 'package:coiffeur/pages/authentification/inscription.dart';
-import 'package:coiffeur/pages/choix_personne.dart';
-import 'package:coiffeur/pages/user_profile/user_page_v2.dart';
+import 'package:coiffeur/pages/authentification/inscriptioncoiffeuse.dart';
+import 'package:coiffeur/pages/user_profile/coiffeuse_page_v2.dart';
 import 'package:coiffeur/prestations/prest.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-class DrawerLayout extends StatefulWidget {
-  const DrawerLayout({Key? key}) : super(key: key);
+class DrawerLayoutCoiffeur extends StatefulWidget {
+  const DrawerLayoutCoiffeur({Key? key}) : super(key: key);
 
   @override
-  State<DrawerLayout> createState() => _DrawerLayoutState();
+  State<DrawerLayoutCoiffeur> createState() => _DrawerLayoutCoiffeurState();
 }
 
-class _DrawerLayoutState extends State<DrawerLayout> {
+class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
   final databaseReference = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
@@ -63,7 +62,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                     ),
                     IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.edit_calendar_outlined))
+                        icon: const Icon(Icons.edit_calendar_outlined)),
                   ],
                 ),
                 const SizedBox(height: 100),
@@ -77,7 +76,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const UserPageV2()));
+                            builder: (context) => const CoiffeusePageV2()));
                       },
                       child: const Text('Profil',
                           style: TextStyle(
@@ -97,7 +96,8 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const Inscription()));
+                            builder: (context) =>
+                                const InscriptionCoiffeuse()));
                       },
                       child: const Text('Inscription',
                           style: TextStyle(
@@ -195,13 +195,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                       color: secondarycolor,
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ChoixTypePersonne(),
-                            ));
-                      },
+                      onPressed: () {},
                       child: const Text('Factures',
                           style: TextStyle(
                             fontSize: firstsize,

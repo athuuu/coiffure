@@ -1,0 +1,21 @@
+[
+    {
+        "createdTime" : "",
+        "nom" : "",
+        "prenom" : "",
+        "number" : 0,
+        "adresse" : "",
+        "cpltadresse": "",
+        "prestation": ""
+    },
+
+    {
+        "createdTime" : "",
+        "nom": "",
+        "prenom": "",
+        "number": "",
+        "adresse": "",
+        "cpltadresse": "",
+        "prestation": ""
+    }
+]

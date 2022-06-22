@@ -76,15 +76,19 @@ class _BigContenuState extends State<BigContenu> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return StreamBuilder(
-        stream: _alertes.snapshots(),
+        stream: _alertes.where("coiffeuse", isNull: true).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamsnapshot) {
+          if (streamsnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return Container(
             margin: const EdgeInsets.symmetric(
                 horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
             // color: Colors.blueAccent,
-            height: 160,
+            height: 700,
             child: ListView.builder(
                 itemCount: streamsnapshot.data!.docs.length,
                 itemBuilder: (content, index) {

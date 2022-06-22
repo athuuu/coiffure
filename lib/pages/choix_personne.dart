@@ -1,4 +1,5 @@
-import 'package:coiffeur/main.dart';
+import 'package:coiffeur/pages/accueil_client.dart';
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -36,8 +37,10 @@ class ChoixTypePersonne extends StatelessWidget {
                   child: const Text('Une coiffeuse',
                       style: TextStyle(fontSize: 20, color: secondarycolor)),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MyApp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyAppCoiffeuse()));
                   }),
             ),
             const SizedBox(height: 20),
@@ -53,8 +56,10 @@ class ChoixTypePersonne extends StatelessWidget {
                     style: TextStyle(fontSize: 20, color: secondarycolor),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MyApp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyAppClient()));
                   }),
             )
           ],

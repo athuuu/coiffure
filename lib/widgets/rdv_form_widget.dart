@@ -12,6 +12,8 @@ class RdvFormWidget extends StatelessWidget {
     this.prenom = '',
     this.prestation = '',
     this.createdTime = 0,
+    required adresse,
+    required cpltadresse,
   }) : super(key: key);
 
   @override

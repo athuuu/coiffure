@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/pages/boutique.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:flutter/material.dart';
@@ -33,17 +32,14 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
               backgroundColor:
                   MaterialStateProperty.all<Color>(secondarycolor)),
           child: const Center(
-            child: Text('Hommes',
+            child: Text('Prestations',
                 style: TextStyle(
                   color: primarycolor,
                   fontSize: 20,
                   fontWeight: firstweight,
                 )),
           ),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Boutique()));
-          },
+          onPressed: () {},
         ),
       ),
       const SizedBox(height: 40),

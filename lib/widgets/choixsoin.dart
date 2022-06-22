@@ -1,4 +1,3 @@
-import 'package:coiffeur/pages/boutique.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +39,7 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
                   fontWeight: firstweight,
                 )),
           ]),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Boutique()));
-          },
+          onPressed: () {},
         ),
       ),
       const SizedBox(height: 40),

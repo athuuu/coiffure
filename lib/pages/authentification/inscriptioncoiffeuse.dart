@@ -1,26 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/main.dart';
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class Inscription extends StatefulWidget {
-  const Inscription({Key? key}) : super(key: key);
+class InscriptionCoiffeuse extends StatefulWidget {
+  const InscriptionCoiffeuse({Key? key}) : super(key: key);
 
   @override
-  State<Inscription> createState() => _InscriptionState();
+  State<InscriptionCoiffeuse> createState() => _InscriptionCoiffeuseState();
 }
 
-class _InscriptionState extends State<Inscription> {
+class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
   final CollectionReference _compte =
-      FirebaseFirestore.instance.collection('compte');
+      FirebaseFirestore.instance.collection('comptecoiffeuse');
   final TextEditingController _mail = TextEditingController();
   TextEditingController _mdp = TextEditingController();
   final TextEditingController _nom = TextEditingController();
   final TextEditingController _prenom = TextEditingController();
   final TextEditingController _naissance = TextEditingController();
 
-  final TextEditingController _adresse = TextEditingController();
+  //final TextEditingController _adresse = TextEditingController();
 
   final TextEditingController _diplome = TextEditingController();
 
@@ -28,19 +29,19 @@ class _InscriptionState extends State<Inscription> {
 
   final TextEditingController _experience = TextEditingController();
 
-  Future<void> _createUpdate([DocumentSnapshot? documentSnapshot]) async {
-    if (documentSnapshot != null) {
-      _mail.text = documentSnapshot['mail'];
-      _nom.text = documentSnapshot['nom'];
-      _prenom.text = documentSnapshot['prenom'];
-      _mdp.text = documentSnapshot['mdp'];
-      _naissance.value = documentSnapshot['naissance'];
-      _prestations.selection = documentSnapshot['prestations'];
-      _experience.value = documentSnapshot['experience'];
-      _adresse.text = documentSnapshot['adresse'];
-      _diplome.text = documentSnapshot['diplome'];
-    }
-  }
+  // Future<void> _createUpdate([DocumentSnapshot? documentSnapshot]) async {
+  //   if (documentSnapshot != null) {
+  //     _mail.text = documentSnapshot['mail'];
+  //     _nom.text = documentSnapshot['nom'];
+  //     _prenom.text = documentSnapshot['prenom'];
+  //     _mdp.text = documentSnapshot['mdp'];
+  //     _naissance.value = documentSnapshot['naissance'];
+  //     _prestations.selection = documentSnapshot['prestations'];
+  //     _experience.value = documentSnapshot['experience'];
+  //     _adresse.text = documentSnapshot['adresse'];
+  //     _diplome.text = documentSnapshot['diplome'];
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +214,10 @@ class _InscriptionState extends State<Inscription> {
                       "naissance": _naissance.text,
                       "diplome": _diplome.text,
                     });
-                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyAppCoiffeuse()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),

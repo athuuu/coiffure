@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/pages/boutique.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/finalisationcommande.dart';
 import 'package:flutter/material.dart';
@@ -112,10 +111,7 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
                     fontWeight: firstweight,
                   )),
             ]),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Boutique()));
-            },
+            onPressed: () {},
           ),
         ),
         const SizedBox(height: 40),

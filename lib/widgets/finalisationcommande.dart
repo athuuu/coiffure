@@ -12,6 +12,7 @@ class FinalisationCommande extends StatefulWidget {
 }
 
 class _FinalisationCommandeState extends State<FinalisationCommande> {
+  final databaseReference = FirebaseFirestore.instance;
   final CollectionReference _alertes =
       FirebaseFirestore.instance.collection('alertes');
   @override
@@ -245,6 +246,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
           ),
           ElevatedButton(
             onPressed: () {
+              addDataToFirebase();
               showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
@@ -310,5 +312,18 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
         ]),
       )
     ]);
+  }
+
+  void addDataToFirebase() {
+    try {
+      databaseReference
+          .collection('alertes')
+          .add({"nom": "poutou", "prenom": "philippe"}).then(
+              // ignore: avoid_print
+              (value) => print(value.id));
+    } catch (error) {
+      // ignore: avoid_print
+      print(error.toString());
+    }
   }
 }

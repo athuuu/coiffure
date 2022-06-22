@@ -1,7 +1,6 @@
-
 import 'package:coiffeur/pages/user_profile/profile_widget.dart';
 import 'package:coiffeur/pages/user_profile/user.dart';
-import 'package:coiffeur/pages/user_profile/user_page_v2.dart';
+import 'package:coiffeur/pages/user_profile/coiffeuse_page_v2.dart';
 import 'package:flutter/material.dart';
 import 'user_pref.dart';
 import 'textfwid.dart';
@@ -15,25 +14,24 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   Usered user = UserPreferences.myUser;
-  
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar:  AppBar(
-    leading: IconButton(
-      icon:  const Icon(
-         Icons.arrow_back_ios,
-        color: Colors.black,
-      ),
-      onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const UserPageV2(),
-        ));
-      },
-    ),
-    backgroundColor: Colors.transparent,
-    elevation: 0,
-   
-  ),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CoiffeusePageV2(),
+              ));
+            },
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             physics: const BouncingScrollPhysics(),
