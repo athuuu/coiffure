@@ -1,15 +1,16 @@
 import 'package:coiffeur/utils/utils.dart';
-import 'package:coiffeur/widgets/choixprestation.dart';
 import 'package:flutter/material.dart';
 
-class PageChoixsoin extends StatefulWidget {
-  const PageChoixsoin({Key? key}) : super(key: key);
+class GenderChoice extends StatefulWidget {
+  const GenderChoice({Key? key, required this.pageController})
+      : super(key: key);
+  final PageController pageController;
 
   @override
-  State<PageChoixsoin> createState() => _PageChoixsoinState();
+  State<GenderChoice> createState() => _GenderChoiceState();
 }
 
-class _PageChoixsoinState extends State<PageChoixsoin> {
+class _GenderChoiceState extends State<GenderChoice> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -53,76 +54,6 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
         child: Text('en quelques clics seulement',
             style: TextStyle(fontSize: 13, fontWeight: firstweight)),
       ),
-      const SizedBox(height: 30),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: secondarycolor,
-              border: Border.all(color: secondarycolor),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: const Center(
-                child: Text('1', style: TextStyle(color: primarycolor))),
-          ),
-          const SizedBox(
-            child: Text('-------'),
-          ),
-          Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: primarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(
-                child: Text('2', style: TextStyle(color: secondarycolor)),
-              )),
-          const SizedBox(
-            child: Text('-------'),
-          ),
-          Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: secondarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(
-                  child: Text('3', style: TextStyle(color: primarycolor)))),
-          const SizedBox(
-            child: Text('-------'),
-          ),
-          Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: secondarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(
-                  child: Text('4', style: TextStyle(color: primarycolor)))),
-          const SizedBox(
-            child: Text('-------'),
-          ),
-          Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: secondarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(
-                  child: Text('5', style: TextStyle(color: primarycolor)))),
-        ],
-      ),
       const SizedBox(height: 150),
       Padding(
         padding: const EdgeInsets.only(left: 40.0),
@@ -140,10 +71,9 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
                     MaterialStateProperty.all<Color>(secondarycolor)),
             child: const Text('Homme', style: TextStyle(fontSize: 50)),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PageChoixPresta()));
+              widget.pageController.animateToPage(2,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut);
             },
           ),
         ),
@@ -165,12 +95,7 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
                     MaterialStateProperty.all<Color>(secondarycolor),
               ),
               child: const Text('Femme', style: TextStyle(fontSize: 50)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PageChoixPresta()));
-              }),
+              onPressed: () {}),
         ),
       ),
       const SizedBox(height: 40),
@@ -179,7 +104,9 @@ class _PageChoixsoinState extends State<PageChoixsoin> {
         children: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                widget.pageController.animateToPage(0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut);
               },
               icon: const Icon(Icons.arrow_back, size: 40)),
         ],

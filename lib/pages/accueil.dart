@@ -39,21 +39,10 @@ class _TabBarMenuState extends State<TabBarMenu> {
                   ),
                 ),
               ),
-              body: TabBarView(
-                children: <Widget>[
-                  Navigator(
-                      key: GlobalKey(),
-                      onGenerateRoute: (routeSettings) {
-                        return MaterialPageRoute(
-                            builder: (context) => const PageRecherche());
-                      }),
-                  Navigator(
-                      key: GlobalKey(),
-                      onGenerateRoute: (routeSettings) {
-                        return MaterialPageRoute(
-                          builder: (context) => const PageHistorique(),
-                        );
-                      }),
+              body: const TabBarView(
+                children: [
+                  PageRecherche(),
+                  PageHistorique(),
                 ],
               ),
             )));

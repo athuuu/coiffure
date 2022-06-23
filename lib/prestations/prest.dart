@@ -1,5 +1,5 @@
 import 'package:coiffeur/list/list.dart';
-import 'package:coiffeur/main.dart';
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +45,8 @@ class _PrestationState extends State<Prestation> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MyApp()));
+                                    builder: (context) =>
+                                        const MyAppCoiffeuse()));
                           })),
                   body: const ListPresta(),
                 );

@@ -1,17 +1,94 @@
 import 'package:coiffeur/utils/utils.dart';
-import 'package:coiffeur/widgets/choixsoin.dart';
+import 'package:coiffeur/widgets/choixhoraire.dart';
+import 'package:coiffeur/widgets/choixprestation.dart';
+import 'package:coiffeur/widgets/finalisationcommande.dart';
+import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 
 class PageRecherche extends StatefulWidget {
-  const PageRecherche({
-    Key? key,
-  }) : super(key: key);
+  const PageRecherche({Key? key}) : super(key: key);
 
   @override
   State<PageRecherche> createState() => _PageRechercheState();
 }
 
 class _PageRechercheState extends State<PageRecherche> {
+  final PageController pageController = PageController();
+  int indexPage = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (int i = 1; i <= 5; i++)
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: indexPage == i - 1 ? primarycolor : secondarycolor,
+                    border: Border.all(
+                      color: secondarycolor,
+                    ),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Center(
+                    child: Text(
+                      i.toString(),
+                      style: TextStyle(
+                        color:
+                            indexPage == i - 1 ? secondarycolor : primarycolor,
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          )),
+      body: PageView(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        onPageChanged: (index) {
+          setState(() {
+            indexPage = index;
+          });
+        },
+        children: [
+          PersonChoice(
+            pageController: pageController,
+          ),
+          GenderChoice(
+            pageController: pageController,
+          ),
+          PageChoixPresta(
+            pageController: pageController,
+          ),
+          PageChoixHoraire(
+            pageController: pageController,
+          ),
+          FinalisationCommande(
+            pageController: pageController,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class PersonChoice extends StatefulWidget {
+  const PersonChoice({Key? key, required this.pageController})
+      : super(key: key);
+  final PageController pageController;
+
+  @override
+  State<PersonChoice> createState() => _PersonChoiceState();
+}
+
+class _PersonChoiceState extends State<PersonChoice> {
   int _counter = 0;
   void _incrementCounter() {
     setState(() {
@@ -30,115 +107,18 @@ class _PageRechercheState extends State<PageRecherche> {
     return Scaffold(
       body: Column(children: [
         const SizedBox(height: 30),
-        Container(
-          margin: const EdgeInsets.only(right: 130),
-          height: 40,
-          width: 140,
-          child: TextButton(
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor)),
-            child: Row(children: const [
-              Icon(Icons.add_circle_outline_outlined,
-                  size: 30, color: primarycolor),
-              Text('Boutique',
-                  style: TextStyle(
-                    color: primarycolor,
-                    fontSize: 20,
-                    fontWeight: firstweight,
-                  )),
-            ]),
-            onPressed: () {},
-          ),
-        ),
-        const SizedBox(height: 40),
         const SizedBox(
           width: 300,
           child: Text('Trouver une coiffeuse pour votre lissage',
               style: TextStyle(fontSize: 23, fontWeight: firstweight)),
         ),
+        const SizedBox(height: 10),
         const Padding(
           padding: EdgeInsets.only(right: 115.0),
           child: Text('en quelques clics seulement',
               style: TextStyle(fontSize: 13, fontWeight: firstweight)),
         ),
-        const SizedBox(height: 15),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: primarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(child: Text('1')),
-            ),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                  child: Text('2', style: TextStyle(color: primarycolor)),
-                )),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('3', style: TextStyle(color: primarycolor)))),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('4', style: TextStyle(color: primarycolor)))),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('5', style: TextStyle(color: primarycolor)))),
-          ],
-        ),
-        const SizedBox(height: 60),
+        const SizedBox(height: 30),
         Container(
           margin: const EdgeInsets.only(right: 80),
           height: 35,
@@ -250,11 +230,9 @@ class _PageRechercheState extends State<PageRecherche> {
                       fontWeight: firstweight,
                     )),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PageChoixsoin()),
-                  );
+                  widget.pageController.animateToPage(1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut);
                 },
               ),
             ),

@@ -101,7 +101,7 @@ class _ConnexionState extends State<Connexion> {
                           }, // tu remplace par la fonction signIn pour se conencter quand tu la fera
                           style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder(),
-                            primary: Colors.black,
+                            backgroundColor: Colors.black,
                             padding: const EdgeInsets.all(14),
                           ),
                           child: Row(

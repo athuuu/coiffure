@@ -81,7 +81,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                                 .signOut(), //la fonction signOut
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              primary: Colors.black,
+                              backgroundColor: Colors.black,
                               padding: const EdgeInsets.all(14),
                             ),
                             child: Row(
@@ -196,7 +196,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: const StadiumBorder(),
-                                          primary: Colors.black,
+                                          backgroundColor: Colors.black,
                                           padding: const EdgeInsets.all(14),
                                         ),
                                         child: Row(

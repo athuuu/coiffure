@@ -60,8 +60,8 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.grey.shade700,
+          foregroundColor: Colors.white,
+          backgroundColor: isFormValid ? null : Colors.grey.shade700,
         ),
         onPressed: addOrUpdateRdv,
         child: const Text('Save'),

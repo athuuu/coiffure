@@ -7,30 +7,21 @@ class MyAppClient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.white,
+    return Scaffold(
+      endDrawer: const Drawer(
+        backgroundColor: Colors.white,
+        child: DrawerLayoutClient(),
       ),
-      home: Scaffold(
-        endDrawer: const Drawer(
-          backgroundColor: Colors.white,
-          child: DrawerLayoutClient(),
+      appBar: AppBar(
+        leading: Image.asset('assets/logocoiffeur.png', width: 35, height: 35),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+          size: 20,
         ),
-        appBar: AppBar(
-          leading:
-              Image.asset('assets/logocoiffeur.png', width: 35, height: 35),
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(
-            color: Colors.black,
-            size: 20,
-          ),
-        ),
-        body: const TabBarMenu(),
       ),
+      body: const TabBarMenu(),
     );
   }
 }

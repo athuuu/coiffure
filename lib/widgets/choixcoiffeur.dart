@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/widgets/finalisationcommande.dart';
 
 import 'package:flutter/material.dart';
 
@@ -40,13 +39,7 @@ class _ChoixCoiffeurState extends State<ChoixCoiffeur> {
                               child: Text(documentSnapshot["nom"]),
                             ),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FinalisationCommande()));
-                          },
+                          onTap: () {},
                         ),
                       ),
                     ]);

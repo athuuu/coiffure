@@ -84,7 +84,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                 .signOut(), //la fonction signOut
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              primary: Colors.black,
+                              backgroundColor: Colors.black,
                               padding: const EdgeInsets.all(14),
                             ),
                             child: Row(
@@ -199,7 +199,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: const StadiumBorder(),
-                                          primary: Colors.black,
+                                          backgroundColor: Colors.black,
                                           padding: const EdgeInsets.all(14),
                                         ),
                                         child: Row(

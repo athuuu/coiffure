@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/utils/utils.dart';
-import 'package:coiffeur/widgets/finalisationcommande.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 class PageChoixHoraire extends StatefulWidget {
-  const PageChoixHoraire({Key? key}) : super(key: key);
+  const PageChoixHoraire({Key? key, required this.pageController})
+      : super(key: key);
+  final PageController pageController;
 
   @override
   State<PageChoixHoraire> createState() => _PageChoixHoraireState();
@@ -64,7 +65,7 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                  primary: primarycolor,
+                  backgroundColor: primarycolor,
                   textStyle: const TextStyle(color: thirdcolor)),
             ),
           ),
@@ -82,147 +83,76 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: ListView(children: [
-        const SizedBox(height: 30),
-        Container(
-          margin: const EdgeInsets.only(right: 130),
-          height: 40,
-          width: 140,
-          child: TextButton(
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor)),
-            child: Row(children: const [
-              Icon(Icons.add_circle_outline_outlined,
-                  size: 30, color: primarycolor),
-              Text('Boutique',
-                  style: TextStyle(
-                    color: primarycolor,
-                    fontSize: 20,
-                    fontWeight: firstweight,
-                  )),
-            ]),
-            onPressed: () {},
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: ListView(children: [
+          const SizedBox(height: 40),
+          const SizedBox(
+            width: 300,
+            child: Text('Prendre un rendez-vous: ',
+                style: TextStyle(fontSize: 23, fontWeight: firstweight)),
           ),
-        ),
-        const SizedBox(height: 40),
-        const SizedBox(
-          width: 300,
-          child: Text('Prendre un rendez-vous: ',
-              style: TextStyle(fontSize: 23, fontWeight: firstweight)),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(right: 115.0),
-          child: Text('en quelques clics seulement',
-              style: TextStyle(fontSize: 13, fontWeight: firstweight)),
-        ),
-        const SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: secondarycolor,
-                border: Border.all(color: secondarycolor),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Center(
-                  child: Text('1', style: TextStyle(color: primarycolor))),
-            ),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                  child: Text('2', style: TextStyle(color: primarycolor)),
-                )),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('3', style: TextStyle(color: primarycolor)))),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: primarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('4', style: TextStyle(color: secondarycolor)))),
-            const SizedBox(
-              child: Text('-------'),
-            ),
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: secondarycolor,
-                  border: Border.all(color: secondarycolor),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                    child: Text('5', style: TextStyle(color: primarycolor)))),
-          ],
-        ),
-        const SizedBox(height: 40),
-        Column(
-          children: [
-            TextButton(
+          const Padding(
+            padding: EdgeInsets.only(right: 115.0),
+            child: Text('en quelques clics seulement',
+                style: TextStyle(fontSize: 13, fontWeight: firstweight)),
+          ),
+          const SizedBox(height: 15),
+          Column(
+            children: [
+              TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(secondarycolor),
+                  ),
+                  child: Text(getHeure(),
+                      style: const TextStyle(color: primarycolor)),
+                  onPressed: () {
+                    pickTime();
+                  }),
+              TextButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(secondarycolor),
                 ),
-                child: Text(getHeure(),
-                    style: const TextStyle(color: primarycolor)),
+                child: Text(_val, style: const TextStyle(color: primarycolor)),
                 onPressed: () {
-                  pickTime();
-                }),
-            TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(secondarycolor),
+                  _selectDate();
+                },
               ),
-              child: Text(_val, style: const TextStyle(color: primarycolor)),
-              onPressed: () {
-                _selectDate();
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 25),
-        SizedBox(
-          height: 40,
-          width: 300,
-          child: TextButton(
+            ],
+          ),
+          const SizedBox(height: 25),
+          SizedBox(
+            height: 40,
+            width: 300,
+            child: TextButton(
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                    ),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(secondarycolor)),
+                child: const Text('A domicile',
+                    style: TextStyle(
+                      color: primarycolor,
+                      fontSize: 15,
+                      fontWeight: firstweight,
+                    )),
+                onPressed: () {
+                  widget.pageController.animateToPage(4,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut);
+                }),
+          ),
+          const SizedBox(height: 30),
+          SizedBox(
+            height: 40,
+            width: 300,
+            child: TextButton(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all(
                     const RoundedRectangleBorder(
@@ -233,134 +163,54 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
                   ),
                   backgroundColor:
                       MaterialStateProperty.all<Color>(secondarycolor)),
-              child: const Text('A domicile',
+              child: const Text('Chez la coiffeuse',
                   style: TextStyle(
                     color: primarycolor,
                     fontSize: 15,
                     fontWeight: firstweight,
                   )),
-              onPressed: () {
-                // showModalBottomSheet<void>(
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return Container(
-                //       height: 500,
-                //       color: secondarycolor,
-                //       child: Center(
-                //         child: Column(
-                //           children: <Widget>[
-                //             const SizedBox(height: 10),
-                //             SizedBox(
-                //               width: 300,
-                //               height: 50,
-                //               child: ElevatedButton(
-                //                 style: ButtonStyle(
-                //                     shape: MaterialStateProperty.all(
-                //                       const RoundedRectangleBorder(
-                //                         borderRadius: BorderRadius.all(
-                //                           Radius.circular(20),
-                //                         ),
-                //                       ),
-                //                     ),
-                //                     backgroundColor:
-                //                         MaterialStateProperty.all<Color>(
-                //                             primarycolor)),
-                //                 child: const Text(
-                //                     'Choisissez une coiffeuse parmis nos partenaires',
-                //                     style: TextStyle(
-                //                         color: secondarycolor, fontSize: 20)),
-                //                 onPressed: () {},
-                //               ),
-                //             ),
-                //             const SizedBox(height: 20),
-                //             const Text('Coiffeuses disponibles',
-                //                 style: TextStyle(
-                //                     color: primarycolor, fontSize: firstsize)),
-                //             const ChoixCoiffeur()
-                //           ],
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
-                //addDataToFirebase();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FinalisationCommande()));
-              }),
-        ),
-        const SizedBox(height: 30),
-        SizedBox(
-          height: 40,
-          width: 300,
-          child: TextButton(
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(height: 30),
+          SizedBox(
+            height: 40,
+            width: 300,
+            child: TextButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
                   ),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor)),
-            child: const Text('Chez la coiffeuse',
-                style: TextStyle(
-                  color: primarycolor,
-                  fontSize: 15,
-                  fontWeight: firstweight,
-                )),
-            onPressed: () {
-              //addDataToFirebase();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FinalisationCommande()));
-            },
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(secondarycolor)),
+              child: const Text('En salon',
+                  style: TextStyle(
+                    color: primarycolor,
+                    fontSize: 15,
+                    fontWeight: firstweight,
+                  )),
+              onPressed: () {},
+            ),
           ),
-        ),
-        const SizedBox(height: 30),
-        SizedBox(
-          height: 40,
-          width: 300,
-          child: TextButton(
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(secondarycolor)),
-            child: const Text('En salon',
-                style: TextStyle(
-                  color: primarycolor,
-                  fontSize: 15,
-                  fontWeight: firstweight,
-                )),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FinalisationCommande()));
-            },
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back, size: 40)),
-          ],
-        )
-      ]),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    widget.pageController.animateToPage(2,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
+                  },
+                  icon: const Icon(Icons.arrow_back, size: 40)),
+            ],
+          )
+        ]),
+      ),
     );
   }
 

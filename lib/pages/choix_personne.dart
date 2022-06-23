@@ -56,10 +56,11 @@ class ChoixTypePersonne extends StatelessWidget {
                     style: TextStyle(fontSize: 20, color: secondarycolor),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyAppClient()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MyAppClient(),
+                      ),
+                    );
                   }),
             )
           ],

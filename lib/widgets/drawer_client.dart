@@ -249,7 +249,19 @@ class _DrawerLayoutClientState extends State<DrawerLayoutClient> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 120),
+                Row(children: [
+                  const Icon(
+                    Icons.new_label,
+                    size: 40,
+                    color: secondarycolor,
+                  ),
+                  TextButton(
+                      child: const Text('devenir coiffeur',
+                          style: TextStyle(
+                              color: secondarycolor, fontSize: firstsize)),
+                      onPressed: () {})
+                ]),
+                const SizedBox(height: 80),
                 Row(
                   children: [
                     const Icon(

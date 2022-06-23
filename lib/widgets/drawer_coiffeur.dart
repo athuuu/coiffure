@@ -54,7 +54,7 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                       margin: const EdgeInsets.only(left: 40),
                       child: Column(
                         children: const [
-                          Text('Sophia Medah'),
+                          Text('nom utilisateur'),
                           Text('membre depuis le 18/03/2022',
                               style: TextStyle(fontSize: 10)),
                         ],
