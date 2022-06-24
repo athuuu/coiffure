@@ -54,7 +54,7 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                       margin: const EdgeInsets.only(left: 40),
                       child: Column(
                         children: const [
-                          Text('nom utilisateur'),
+                          Text('test'),
                           Text('membre depuis le 18/03/2022',
                               style: TextStyle(fontSize: 10)),
                         ],
@@ -136,48 +136,48 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                     ),
                     TextButton(
                       onPressed: () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: Image.asset('assets/logocoiffeur.png',
-                                      width: 80, height: 80),
-                                  content: SizedBox(
-                                    height: 85,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('pages non développer',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: firstweight)),
-                                        Text(
-                                            'les pages seront fait prochainement'),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                        ),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                secondarycolor),
-                                      ),
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Ok, J\'ai compris',
-                                          style:
-                                              TextStyle(color: primarycolor)),
-                                    ),
-                                  ],
-                                ));
+                        // showDialog<String>(
+                        //     context: context,
+                        //     builder: (BuildContext context) => AlertDialog(
+                        //           title: Image.asset('assets/logocoiffeur.png',
+                        //               width: 80, height: 80),
+                        //           content: SizedBox(
+                        //             height: 85,
+                        //             child: Column(
+                        //               crossAxisAlignment:
+                        //                   CrossAxisAlignment.start,
+                        //               children: const [
+                        //                 Text('pages non développer',
+                        //                     style: TextStyle(
+                        //                         fontSize: 20,
+                        //                         fontWeight: firstweight)),
+                        //                 Text(
+                        //                     'les pages seront fait prochainement'),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //           actions: <Widget>[
+                        //             TextButton(
+                        //               style: ButtonStyle(
+                        //                 shape: MaterialStateProperty.all<
+                        //                     OutlinedBorder>(
+                        //                   RoundedRectangleBorder(
+                        //                     borderRadius:
+                        //                         BorderRadius.circular(20),
+                        //                   ),
+                        //                 ),
+                        //                 backgroundColor:
+                        //                     MaterialStateProperty.all<Color>(
+                        //                         secondarycolor),
+                        //               ),
+                        //               onPressed: () =>
+                        //                   Navigator.pop(context, 'Cancel'),
+                        //               child: const Text('Ok, J\'ai compris',
+                        //                   style:
+                        //                       TextStyle(color: primarycolor)),
+                        //             ),
+                        //           ],
+                        //         ));
                       },
                       child: const Text('Reglages',
                           style: TextStyle(
@@ -218,7 +218,7 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                             MaterialPageRoute(
                                 builder: (context) => const RdvPage()));
                       },
-                      child: const Text('Telechargement',
+                      child: const Text('Vos Rdv ',
                           style: TextStyle(
                             fontSize: firstsize,
                             color: secondarycolor,

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coiffeur/model/commande/commande.dart';
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
@@ -13,93 +16,232 @@ class PageRecherche extends StatefulWidget {
 }
 
 class _PageRechercheState extends State<PageRecherche> {
+  void addDataToFirebase() {
+    try {
+      databaseReference.collection('alertes').add({
+        "nom": "test",
+        "prenom": "test",
+        "prestation": "lissage",
+        "prix": 40,
+        "declined": false,
+        "adresse": "5 rue de la paix",
+        "coiffeuse": null,
+        "complement": "59000 Lille",
+        "accepted": false,
+        "date": "11 juin 2022 à 15:30:00 UTC+2",
+      }).then(
+          // ignore: avoid_print
+          (value) => print(value.id));
+    } catch (error) {
+      // ignore: avoid_print
+      print(error.toString());
+    }
+  }
+
+  final databaseReference = FirebaseFirestore.instance;
   final PageController pageController = PageController();
   int indexPage = 0;
+  CommandeInfos commandeInfo = CommandeInfos();
+
+  List<Widget> listView = const [
+    GenderChoice(),
+    PageChoixPresta(),
+    PageChoixHoraire(),
+    FinalisationCommande()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              for (int i = 1; i <= 5; i++)
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: indexPage == i - 1 ? primarycolor : secondarycolor,
-                    border: Border.all(
-                      color: secondarycolor,
+        appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                for (int i = 1; i <= 4; i++)
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: indexPage == i - 1 ? primarycolor : secondarycolor,
+                      border: Border.all(
+                        color: secondarycolor,
+                      ),
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Center(
-                    child: Text(
-                      i.toString(),
-                      style: TextStyle(
-                        color:
-                            indexPage == i - 1 ? secondarycolor : primarycolor,
+                    child: Center(
+                      child: Text(
+                        i.toString(),
+                        style: TextStyle(
+                          color: indexPage == i - 1
+                              ? secondarycolor
+                              : primarycolor,
+                        ),
+                      ),
+                    ),
+                  )
+              ],
+            )),
+        body: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          onPageChanged: (index) {
+            setState(() {
+              indexPage = index;
+            });
+          },
+          children: listView,
+        ),
+        bottomSheet: listView.length == indexPage + 1
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      height: 54,
+                      width: 220,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(secondarycolor),
+                            shape: MaterialStateProperty.resolveWith<
+                                OutlinedBorder>((_) {
+                              return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              );
+                            })),
+                        onPressed: () {
+                          showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: Image.asset(
+                                        'assets/logocoiffeur.png',
+                                        width: 80,
+                                        height: 80),
+                                    content: SizedBox(
+                                      height: 85,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const [
+                                          Text('félicitations',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: firstweight)),
+                                          Text('Page Paiement'),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 30, 30),
+                                        child: SizedBox(
+                                          width: 130,
+                                          height: 30,
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                  OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(secondarycolor),
+                                            ),
+                                            onPressed: () {
+                                              addDataToFirebase();
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MyAppCoiffeuse()));
+                                            },
+                                            child: const Text('Merci',
+                                                style: TextStyle(
+                                                    color: primarycolor)),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                        },
+                        child: const Text("Réserver"),
                       ),
                     ),
                   ),
-                )
-            ],
-          )),
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          setState(() {
-            indexPage = index;
-          });
-        },
-        children: [
-          PersonChoice(
-            pageController: pageController,
-          ),
-          GenderChoice(
-            pageController: pageController,
-          ),
-          PageChoixPresta(
-            pageController: pageController,
-          ),
-          PageChoixHoraire(
-            pageController: pageController,
-          ),
-          FinalisationCommande(
-            pageController: pageController,
-          )
-        ],
-      ),
-    );
+                ],
+              )
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: indexPage != 0
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
+                  children: [
+                    if (indexPage != 0)
+                      FloatingActionButton(
+                        backgroundColor: secondarycolor,
+                        child: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          pageController.animateToPage(indexPage - 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut);
+                        },
+                      ),
+                    FloatingActionButton(
+                      backgroundColor: secondarycolor,
+                      child: const Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        pageController.animateToPage(indexPage + 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut);
+                      },
+                    ),
+                  ],
+                ),
+              ));
   }
 }
 
 class PersonChoice extends StatefulWidget {
-  const PersonChoice({Key? key, required this.pageController})
-      : super(key: key);
-  final PageController pageController;
+  const PersonChoice({Key? key}) : super(key: key);
 
   @override
   State<PersonChoice> createState() => _PersonChoiceState();
 }
 
 class _PersonChoiceState extends State<PersonChoice> {
-  int _counter = 0;
+  int _counter = 1;
+
+  CommandeInfos commandeinfo = CommandeInfos();
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+    commandeinfo.commande = Commande(nombre: _counter);
+    // ignore: avoid_print
+    print(commandeinfo.commande!.getNombre);
   }
 
   void _decrementCounter() {
     setState(() {
-      _counter--;
+      if (_counter == 1) {
+        _counter == _counter;
+      } else {
+        _counter--;
+      }
     });
+    commandeinfo.commande = Commande(nombre: _counter);
+    // ignore: avoid_print
+    print(commandeinfo.commande!.getNombre);
   }
 
   @override
@@ -164,7 +306,7 @@ class _PersonChoiceState extends State<PersonChoice> {
                     child: const Center(
                       child: Text('-',
                           style:
-                              TextStyle(color: secondarycolor, fontSize: 30)),
+                              TextStyle(color: secondarycolor, fontSize: 20)),
                     ),
                   ),
                 ),
@@ -194,50 +336,16 @@ class _PersonChoiceState extends State<PersonChoice> {
                     onPressed: () {
                       _incrementCounter();
                       // ignore: avoid_print
-                      print(_counter);
                     },
                     child: const Center(
                       child: Text('+',
                           style:
-                              TextStyle(color: secondarycolor, fontSize: 30)),
+                              TextStyle(color: secondarycolor, fontSize: 20)),
                     ),
                   ),
                 ),
               ],
             )),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(width: 1),
-            Padding(
-              padding: const EdgeInsets.only(right: 40),
-              child: TextButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50),
-                        ),
-                      ),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(secondarycolor)),
-                child: const Text('Suivant',
-                    style: TextStyle(
-                      color: primarycolor,
-                      fontSize: 15,
-                      fontWeight: firstweight,
-                    )),
-                onPressed: () {
-                  widget.pageController.animateToPage(1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut);
-                },
-              ),
-            ),
-          ],
-        ),
       ]),
     );
   }

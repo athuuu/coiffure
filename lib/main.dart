@@ -1,3 +1,4 @@
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/choix_personne.dart';
 import 'package:coiffeur/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: const ChoixTypePersonne(),
+      home: const MyAppCoiffeuse(),
     );
   }
 }

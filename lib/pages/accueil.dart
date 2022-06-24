@@ -30,7 +30,7 @@ class _TabBarMenuState extends State<TabBarMenu> {
                     indicatorColor: primarycolor,
                     tabs: <Widget>[
                       Tab(
-                        child: Text('Recherche'),
+                        child: Text('Accueil'),
                       ),
                       Tab(
                         child: Text('Historique'),

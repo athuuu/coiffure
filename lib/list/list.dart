@@ -88,7 +88,7 @@ class _BigContenuState extends State<BigContenu> {
             margin: const EdgeInsets.symmetric(
                 horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
             // color: Colors.blueAccent,
-            height: 700,
+            height: 400,
             child: ListView.builder(
                 itemCount: streamsnapshot.data!.docs.length,
                 itemBuilder: (content, index) {
