@@ -221,7 +221,6 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: secondarycolor,
                     padding: const EdgeInsets.all(14),
                   ),
                   child: Row(

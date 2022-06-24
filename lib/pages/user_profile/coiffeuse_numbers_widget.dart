@@ -17,6 +17,9 @@ class _CoiffeuseNumbersWidgetState extends State<CoiffeuseNumbersWidget> {
     return StreamBuilder(
         stream: _compte.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          }
           return SizedBox(
             height: 60,
             width: 300,

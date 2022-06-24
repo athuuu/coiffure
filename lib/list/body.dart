@@ -142,7 +142,6 @@ class _BodyDetailState extends State<BodyDetail> {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: const Color.fromARGB(255, 21, 161, 8),
                     padding: const EdgeInsets.all(14),
                   ),
                   child: Row(
@@ -166,7 +165,6 @@ class _BodyDetailState extends State<BodyDetail> {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: const Color.fromARGB(255, 217, 0, 0),
                     padding: const EdgeInsets.all(14),
                   ),
                   child: Row(

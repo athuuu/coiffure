@@ -25,6 +25,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
   final usered = UserPreferences.myUser;
   final CollectionReference _compteclient =
       FirebaseFirestore.instance.collection('compteclient');
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
@@ -69,12 +70,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                           const SizedBox(
                             height: 4,
                           ),
-                          // Text(
-                          //   user.email, //mettre le nom plus tard
-                          //   style: GoogleFonts.poppins(
-                          //     color: Colors.grey,
-                          //   ),
-                          // ), mettre le display name plus tard
                         ]),
                         const SizedBox(
                           height: 24,
@@ -84,7 +79,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                 .signOut(), //la fonction signOut
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              backgroundColor: Colors.black,
                               padding: const EdgeInsets.all(14),
                             ),
                             child: Row(
@@ -199,7 +193,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: const StadiumBorder(),
-                                          backgroundColor: Colors.black,
                                           padding: const EdgeInsets.all(14),
                                         ),
                                         child: Row(

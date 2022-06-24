@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:coiffeur/widgets/card_choice.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 class PageChoixHoraire extends StatefulWidget {
-  const PageChoixHoraire({Key? key}) : super(key: key);
+  const PageChoixHoraire({Key? key, required this.pageController})
+      : super(key: key);
+  final PageController pageController;
 
   @override
   State<PageChoixHoraire> createState() => _PageChoixHoraireState();
 }
 
 class _PageChoixHoraireState extends State<PageChoixHoraire> {
-  bool isChecked = false;
-  bool isChecked4 = false;
-  bool isChecked3 = false;
   final databaseReference = FirebaseFirestore.instance;
   final myController = TextEditingController();
-  String _val = '';
   TimeOfDay? time;
   DateTime? date;
 
@@ -29,7 +28,6 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
   }
 
   getDate() {
-    // ignore: unnecessary_null_comparison
     if (date == null) {
       return 'date';
     } else {
@@ -74,27 +72,36 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
         );
       },
     );
-
-    if (picker != null) {
-      setState(() {
-        _val = picker.toString();
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(children: [
-          const SizedBox(height: 40),
-          const SizedBox(
-            width: 300,
-            child: Text('Choisissez une date et un horaire: ',
-                style: TextStyle(fontSize: 15, fontWeight: firstweight)),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        centerTitle: true,
+        title: const Text(
+          'Choisissez une date et un horaire',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            widget.pageController.animateToPage(
+              1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
-          const SizedBox(height: 15),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
           Column(
             children: [
               TextButton(
@@ -112,130 +119,35 @@ class _PageChoixHoraireState extends State<PageChoixHoraire> {
                 ),
                 child: Text(getDate(),
                     style: const TextStyle(color: primarycolor)),
-                onPressed: () {
-                  _selectDate();
-                },
+                onPressed: () {},
               ),
             ],
           ),
-          const SizedBox(height: 25),
           SizedBox(
-            height: 40,
-            width: 300,
-            child: Row(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SizedBox(
-                  width: 150,
-                  child: TextButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                          ),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(secondarycolor)),
-                      child: const Text('A domicile',
-                          style: TextStyle(
-                            color: primarycolor,
-                            fontSize: 15,
-                            fontWeight: firstweight,
-                          )),
-                      onPressed: () {}),
-                ),
-                Checkbox(
-                  value: isChecked3,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked3 = value!;
-                    });
+                CardChoice(
+                  title: "A domicile",
+                  onPressed: () {
+                    widget.pageController.animateToPage(3,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
                   },
-                )
+                ),
+                CardChoice(
+                  title: "Chez la coiffeuse",
+                  onPressed: () {},
+                ),
+                CardChoice(
+                  title: "En salon",
+                  onPressed: () {},
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 30),
-          SizedBox(
-            height: 40,
-            width: 300,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: TextButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(secondarycolor)),
-                    child: const Text('Chez la coiffeuse',
-                        style: TextStyle(
-                          color: primarycolor,
-                          fontSize: 15,
-                          fontWeight: firstweight,
-                        )),
-                    onPressed: () {},
-                  ),
-                ),
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
-                  },
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 30),
-          SizedBox(
-            height: 40,
-            width: 300,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: TextButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(secondarycolor)),
-                    child: const Text('En salon',
-                        style: TextStyle(
-                          color: primarycolor,
-                          fontSize: 15,
-                          fontWeight: firstweight,
-                        )),
-                    onPressed: () {},
-                  ),
-                ),
-                Checkbox(
-                  value: isChecked4,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked4 = value!;
-                    });
-                  },
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-        ]),
+        ],
       ),
     );
   }

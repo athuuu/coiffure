@@ -1,8 +1,11 @@
 import 'package:coiffeur/utils/utils.dart';
+import 'package:coiffeur/widgets/card_choice.dart';
 import 'package:flutter/material.dart';
 
 class GenderChoice extends StatefulWidget {
-  const GenderChoice({Key? key}) : super(key: key);
+  const GenderChoice({Key? key, required this.pageController})
+      : super(key: key);
+  final PageController pageController;
 
   @override
   State<GenderChoice> createState() => _GenderChoiceState();
@@ -10,85 +13,51 @@ class GenderChoice extends StatefulWidget {
 
 class _GenderChoiceState extends State<GenderChoice> {
   CommandeInfos commandeInfo = CommandeInfos();
-  bool isChecked = false;
-  bool isChecked2 = false;
+  bool isSelected = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        const SizedBox(height: 40),
-        const SizedBox(
-          width: 300,
-          child: Text('Je suis un :  ',
-              style: TextStyle(fontSize: 23, fontWeight: firstweight)),
-        ),
-        const SizedBox(height: 100),
-        Padding(
-          padding: const EdgeInsets.only(left: 40.0),
-          child: SizedBox(
-            height: 80,
-            width: 350,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            bottomLeft: Radius.circular(40)))),
-                backgroundColor: MaterialStateProperty.all<Color>(primarycolor),
-              ),
-              child: Row(
-                children: [
-                  const Text('Homme',
-                      style: TextStyle(fontSize: 50, color: secondarycolor)),
-                  Checkbox(
-                    value: isChecked,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value!;
-                      });
-                    },
-                  )
-                ],
-              ),
-              onPressed: () {},
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const Text('Je suis un :  '),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                CardChoice(
+                  title: "Homme",
+                  onPressed: () {
+                    setState(() {
+                      isSelected = true;
+                    });
+                    widget.pageController.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                ),
+                CardChoice(
+                  title: "Femme",
+                  onPressed: () {
+                    setState(() {
+                      isSelected = false;
+                    });
+                    widget.pageController.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                ),
+              ],
             ),
-          ),
-        ),
-        const SizedBox(height: 30),
-        Padding(
-          padding: const EdgeInsets.only(left: 40.0),
-          child: SizedBox(
-            height: 80,
-            width: 350,
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              bottomLeft: Radius.circular(40)))),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(primarycolor),
-                ),
-                child: Row(
-                  children: [
-                    const Text('Femme',
-                        style: TextStyle(fontSize: 50, color: secondarycolor)),
-                    Checkbox(
-                      value: isChecked2,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked2 = value!;
-                        });
-                      },
-                    )
-                  ],
-                ),
-                onPressed: () {}),
-          ),
-        ),
-      ]),
+          )
+        ],
+      ),
     );
   }
 }

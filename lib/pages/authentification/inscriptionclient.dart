@@ -21,6 +21,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
   final TextEditingController _prenom = TextEditingController();
   final TextEditingController _naissance = TextEditingController();
   final TextEditingController _description = TextEditingController();
+
   //final TextEditingController _adresse = TextEditingController();
 
   // Future<void> _createUpdate([DocumentSnapshot? documentSnapshot]) async {
@@ -192,7 +193,6 @@ class _InscriptionClientState extends State<InscriptionClient> {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: secondarycolor,
                     padding: const EdgeInsets.all(14),
                   ),
                   child: Row(

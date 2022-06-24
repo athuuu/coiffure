@@ -10,6 +10,7 @@ class AddEditRdvPage extends StatefulWidget {
     Key? key,
     this.rdv,
   }) : super(key: key);
+
   @override
   _AddEditNotePageState createState() => _AddEditNotePageState();
 }
@@ -59,10 +60,7 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: isFormValid ? null : Colors.grey.shade700,
-        ),
+        style: ElevatedButton.styleFrom(),
         onPressed: addOrUpdateRdv,
         child: const Text('Save'),
       ),

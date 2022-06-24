@@ -98,10 +98,10 @@ class _ConnexionState extends State<Connexion> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const MyApp()));
-                          }, // tu remplace par la fonction signIn pour se conencter quand tu la fera
+                          },
+                          // tu remplace par la fonction signIn pour se conencter quand tu la fera
                           style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder(),
-                            backgroundColor: Colors.black,
                             padding: const EdgeInsets.all(14),
                           ),
                           child: Row(

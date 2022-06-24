@@ -22,6 +22,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
   final usered = UserPreferences.myUser;
   final CollectionReference _compte =
       FirebaseFirestore.instance.collection('comptecoiffeuse');
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
@@ -81,7 +82,6 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                                 .signOut(), //la fonction signOut
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              backgroundColor: Colors.black,
                               padding: const EdgeInsets.all(14),
                             ),
                             child: Row(
@@ -128,104 +128,110 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                   body: Container(
                     color: primarycolor,
                     child: StreamBuilder(
-                        stream: _compte.snapshots(),
-                        builder: (context,
-                            AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 14),
-                            child: ListView.builder(
-                                itemCount: streamSnapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  final DocumentSnapshot documentSnapshot =
-                                      streamSnapshot.data!.docs[index];
-                                  return Column(children: [
-                                    ProfileWidget(
-                                      imagePath: usered.imagePath,
+                      stream: _compte.snapshots(),
+                      builder: (
+                        context,
+                        AsyncSnapshot<QuerySnapshot> streamSnapshot,
+                      ) {
+                        if (streamSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 14),
+                          child: ListView.builder(
+                              itemCount: streamSnapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                final DocumentSnapshot documentSnapshot =
+                                    streamSnapshot.data!.docs[index];
+                                return Column(children: [
+                                  ProfileWidget(
+                                    imagePath: usered.imagePath,
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  Column(children: [
+                                    Text(
+                                      "non connecté",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 17,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
-                                      height: 24,
+                                      height: 4,
                                     ),
-                                    Column(children: [
-                                      Text(
-                                        "non connecté",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 17,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            documentSnapshot['nom'],
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            documentSnapshot['prenom'],
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                      // Text(
-                                      //   "non connecté",
-                                      //   style: GoogleFonts.poppins(
-                                      //     color: Colors.grey,
-                                      //   ),
-                                      // ), mettre le display.name
-                                    ]),
-                                    const SizedBox(
-                                      height: 24,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Connexion()));
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          shape: const StadiumBorder(),
-                                          backgroundColor: Colors.black,
-                                          padding: const EdgeInsets.all(14),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          documentSnapshot['nom'],
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 17,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              "Se Connecter",
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            )
-                                          ],
-                                        )),
-                                    const SizedBox(
-                                      height: 24,
+                                        Text(
+                                          documentSnapshot['prenom'],
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 17,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
-                                    const CoiffeuseNumbersWidget(),
-                                    const CoiffeuseNumbersWidget2(),
-                                    const SizedBox(
-                                      height: 48,
-                                    ),
-                                  ]);
-                                }),
-                          );
-                        }),
+                                    // Text(
+                                    //   "non connecté",
+                                    //   style: GoogleFonts.poppins(
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ), mettre le display.name
+                                  ]),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Connexion()));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: const StadiumBorder(),
+                                        padding: const EdgeInsets.all(14),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            "Se Connecter",
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  const CoiffeuseNumbersWidget(),
+                                  const CoiffeuseNumbersWidget2(),
+                                  const SizedBox(
+                                    height: 48,
+                                  ),
+                                ]);
+                              }),
+                        );
+                      },
+                    ),
                   ),
                 );
               }
@@ -235,6 +241,9 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
   Widget buildAbout() => StreamBuilder(
       stream: _compte.snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+        if (streamSnapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
         return Container(
           height: 250,
           padding: const EdgeInsets.symmetric(horizontal: 48),
