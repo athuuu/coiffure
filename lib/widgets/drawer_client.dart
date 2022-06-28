@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/data/rdv_pages.dart';
-import 'package:coiffeur/pages/authentification/inscriptionclient.dart';
 
-import 'package:coiffeur/pages/user_profile/client_page_v2.dart';
+import 'package:coiffeur/pages/user_profile/client_profil.dart';
 
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +54,7 @@ class _DrawerLayoutClientState extends State<DrawerLayoutClient> {
                       margin: const EdgeInsets.only(left: 40),
                       child: Column(
                         children: const [
-                          Text('Sophia Medah'),
+                          Text('test test'),
                           Text('membre depuis le 18/03/2022',
                               style: TextStyle(fontSize: 10)),
                         ],
@@ -80,26 +79,6 @@ class _DrawerLayoutClientState extends State<DrawerLayoutClient> {
                             builder: (context) => const ClientPageV2()));
                       },
                       child: const Text('Profil',
-                          style: TextStyle(
-                            fontSize: firstsize,
-                            color: secondarycolor,
-                          )),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.verified_user,
-                      size: 40,
-                      color: secondarycolor,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const InscriptionClient()));
-                      },
-                      child: const Text('Inscription',
                           style: TextStyle(
                             fontSize: firstsize,
                             color: secondarycolor,

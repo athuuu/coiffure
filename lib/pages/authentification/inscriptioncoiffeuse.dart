@@ -15,13 +15,6 @@ class InscriptionCoiffeuse extends StatefulWidget {
 class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
   final CollectionReference _compte =
       FirebaseFirestore.instance.collection('comptecoiffeuse');
-  final TextEditingController _mail = TextEditingController();
-  TextEditingController _mdp = TextEditingController();
-  final TextEditingController _nom = TextEditingController();
-  final TextEditingController _prenom = TextEditingController();
-  final TextEditingController _naissance = TextEditingController();
-
-  //final TextEditingController _adresse = TextEditingController();
 
   final TextEditingController _diplome = TextEditingController();
 
@@ -92,90 +85,6 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               ],
             ),
           ),
-          TextFormField(
-            controller: _mail,
-            decoration: InputDecoration(
-              labelText: 'Votre mail',
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            obscureText: true,
-            controller: _mdp,
-            decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-              labelText: 'Mot de passe',
-            ),
-            validator: (val) => val!.length < 6
-                ? "votre mot de passe doit faire au moins 6 caractères."
-                : null,
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-              labelText: 'Confirmez votre Mot de passe',
-            ),
-            validator: (val) => val!.length < 6
-                ? 'le mot de passe ne correspond pas a celui que vous avez entrer'
-                : null,
-            onChanged: (val) => _mdp = val as TextEditingController,
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            controller: _nom,
-            decoration: InputDecoration(
-              labelText: 'Nom',
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            controller: _prenom,
-            decoration: InputDecoration(
-              labelText: 'Prénom',
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            controller: _naissance,
-            decoration: InputDecoration(
-              labelText: 'Date de naissance',
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          TextFormField(
-            controller: _diplome,
-            decoration: InputDecoration(
-              labelText: 'Diplôme',
-              labelStyle: TextStyle(
-                color: Colors.grey[400],
-              ),
-              border: const OutlineInputBorder(),
-            ),
-          ),
           const SizedBox(height: 10.0),
           TextFormField(
             controller: _prestations,
@@ -206,12 +115,8 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
                   onPressed: () async {
                     final id = await createUser();
                     await _compte.doc(id).set({
-                      "mail": _mail.text,
-                      "mdp": _mdp.text,
-                      "nom": _nom.text,
-                      "prenom": _prenom.text,
                       "experience": _experience.text,
-                      "naissance": _naissance.text,
+                      "prestation": _prestations.text,
                       "diplome": _diplome.text,
                     });
                     Navigator.push(
@@ -228,7 +133,7 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
                     children: const [
                       SizedBox(width: 10),
                       Text(
-                        "Créer mon compte",
+                        "Passer en compte coiffeur",
                         style: TextStyle(
                           color: primarycolor,
                           fontSize: 16,

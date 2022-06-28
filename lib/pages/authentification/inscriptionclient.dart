@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/pages/accueil_client.dart';
+
+import 'package:coiffeur/pages/authentification/connexion.dart';
 
 import 'package:coiffeur/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -13,6 +15,8 @@ class InscriptionClient extends StatefulWidget {
 }
 
 class _InscriptionClientState extends State<InscriptionClient> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   final CollectionReference _compteclient =
       FirebaseFirestore.instance.collection('compteclient');
   final TextEditingController _mail = TextEditingController();
@@ -21,6 +25,39 @@ class _InscriptionClientState extends State<InscriptionClient> {
   final TextEditingController _prenom = TextEditingController();
   final TextEditingController _naissance = TextEditingController();
   final TextEditingController _description = TextEditingController();
+
+  Future<void> addUser(String userID, String pseudo, String naissance) {
+    return firestore
+        .collection('Users')
+        .doc(userID)
+        .set({
+          'pseudo': pseudo,
+          'birthdate': naissance,
+        })
+        // ignore: avoid_print
+        .then((value) => print("Utilisateur ajouté"))
+        .catchError(
+          // ignore: avoid_print
+          (error) => print("Erreur: $error"),
+        );
+  }
+
+  void signUpToFirebase() {
+    try {
+      auth
+          .createUserWithEmailAndPassword(
+        email: _mail.text.trim(),
+        password: _mdp.text.trim(),
+      )
+          .then((value) {
+        // ignore: avoid_print
+        print(value.user!.uid);
+      });
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
 
   //final TextEditingController _adresse = TextEditingController();
 
@@ -62,7 +99,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyAppClient()));
+                          builder: (context) => const Connexion()));
                 }),
             const SizedBox(width: 55),
             const Text(
@@ -177,6 +214,10 @@ class _InscriptionClientState extends State<InscriptionClient> {
             child: Column(children: [
               ElevatedButton(
                   onPressed: () async {
+                    signUpToFirebase();
+                    const AlertDialog(
+                        title: Text(
+                            'un mail de confirmation va vous etre envoyé pour confirmer la création de votre compte'));
                     final id = await createUser();
                     await _compteclient.doc(id).set({
                       "mail": _mail.text,
@@ -189,7 +230,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MyAppClient()));
+                            builder: (context) => const Connexion()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),

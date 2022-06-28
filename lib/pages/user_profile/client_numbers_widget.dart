@@ -17,8 +17,10 @@ class _ClientNumbersWidgetState extends State<ClientNumbersWidget> {
     return StreamBuilder(
         stream: _compteclient.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if (!streamSnapshot.hasData || streamSnapshot.data == null)
+            return const Text('');
           return SizedBox(
-            height: 500,
+            height: 400,
             width: 300,
             child: ListView.builder(
                 itemCount: streamSnapshot.data!.docs.length,
@@ -27,35 +29,58 @@ class _ClientNumbersWidgetState extends State<ClientNumbersWidget> {
                       streamSnapshot.data!.docs[index];
                   return Column(
                     children: [
-                      const SizedBox(
-                        height: 300,
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Column(
                             children: [
                               const Text(
-                                "Anniversaire",
+                                "Nom",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 24),
                               ),
-                              Text(documentSnapshot['naissance'].toString())
+                              Text(documentSnapshot['nom'].toString())
                             ],
                           ),
                           const SizedBox(width: 20),
                           Column(
                             children: [
                               const Text(
-                                "mail",
+                                "prenom",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 24),
                               ),
-                              Text(documentSnapshot['mail'])
+                              Text(documentSnapshot['prenom'])
                             ],
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          const Text(
+                            'date de naissance',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 24),
+                          ),
+                          Text(documentSnapshot['naissance'])
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Column(
+                        children: [
+                          const Text(
+                            'description',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 24),
+                          ),
+                          Text(documentSnapshot['description'])
+                        ],
+                      )
                     ],
                   );
                 }),

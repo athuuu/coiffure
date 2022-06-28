@@ -25,11 +25,11 @@ class _ClientNumbersWidget2State extends State<ClientNumbersWidget2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'description',
+                      'anniversaire',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
-                    Text(documentSnapshot['description']),
+                    Text(documentSnapshot['anniversaire']),
                   ],
                 );
               });

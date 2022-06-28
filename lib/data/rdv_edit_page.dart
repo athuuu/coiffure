@@ -55,6 +55,7 @@ class _AddEditNotePageState extends State<AddEditRdvPage> {
       ));
 
   Widget buildButton() {
+    // ignore: unused_local_variable
     final isFormValid = title.isNotEmpty && prestation.isNotEmpty;
 
     return Padding(

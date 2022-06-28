@@ -24,219 +24,223 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
       FirebaseFirestore.instance.collection('comptecoiffeuse');
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return const Center(child: Text("une erreur s'est produite"));
-              } else if (snapshot.hasData) {
-                return Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 14),
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        ProfileWidget(
-                          imagePath: usered.imagePath,
+  Widget build(BuildContext context) {
+    // ignore: avoid_print
+    print(user.toString());
+    return Scaffold(
+      body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("une erreur s'est produite"));
+            } else if (snapshot.hasData) {
+              return Scaffold(
+                backgroundColor: Colors.white,
+                body: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      ProfileWidget(
+                        imagePath: usered.imagePath,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Column(children: [
+                        Text(
+                          user.email ?? 'N/D',
+                          style: GoogleFonts.poppins(
+                              fontSize: 17,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          user.displayName ?? 'N/D',
+                          style: GoogleFonts.poppins(
+                              fontSize: 17,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          height: 24,
+                          height: 4,
                         ),
-                        Column(children: [
-                          Text(
-                            user.email,
-                            style: GoogleFonts.poppins(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                        // Text(
+                        //   user.email, //mettre le nom plus tard
+                        //   style: GoogleFonts.poppins(
+                        //     color: Colors.grey,
+                        //   ),
+                        // ), mettre le display name plus tard
+                      ]),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      ElevatedButton(
+                          onPressed: () => FirebaseAuth.instance
+                              .signOut(), //la fonction signOut
+                          style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.all(14),
                           ),
-                          Text(
-                            user.name,
-                            style: GoogleFonts.poppins(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          // Text(
-                          //   user.email, //mettre le nom plus tard
-                          //   style: GoogleFonts.poppins(
-                          //     color: Colors.grey,
-                          //   ),
-                          // ), mettre le display name plus tard
-                        ]),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        ElevatedButton(
-                            onPressed: () => FirebaseAuth.instance
-                                .signOut(), //la fonction signOut
-                            style: ElevatedButton.styleFrom(
-                              shape: const StadiumBorder(),
-                              padding: const EdgeInsets.all(14),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(width: 10),
-                                Text(
-                                  "Se déconnecter",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
-                            )),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        const CoiffeuseNumbersWidget(),
-                        const CoiffeuseNumbersWidget2(),
-                        const SizedBox(
-                          height: 48,
-                        ),
-                        buildAbout(),
-                      ],
-                    ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(width: 10),
+                              Text(
+                                "Se déconnecter",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          )),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      const CoiffeuseNumbersWidget(),
+                      const CoiffeuseNumbersWidget2(),
+                      const SizedBox(
+                        height: 48,
+                      ),
+                      buildAbout(),
+                    ],
                   ),
-                );
-              } else {
-                return Scaffold(
-                  appBar: AppBar(
-                      backgroundColor: primarycolor,
-                      elevation: 0.0,
-                      leading: IconButton(
-                          color: secondarycolor,
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MyApp()));
-                          })),
-                  body: Container(
-                    color: primarycolor,
-                    child: StreamBuilder(
-                      stream: _compte.snapshots(),
-                      builder: (
-                        context,
-                        AsyncSnapshot<QuerySnapshot> streamSnapshot,
-                      ) {
-                        if (streamSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        }
-                        return Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 14),
-                          child: ListView.builder(
-                              itemCount: streamSnapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                final DocumentSnapshot documentSnapshot =
-                                    streamSnapshot.data!.docs[index];
-                                return Column(children: [
-                                  ProfileWidget(
-                                    imagePath: usered.imagePath,
+                ),
+              );
+            } else {
+              return Scaffold(
+                appBar: AppBar(
+                    backgroundColor: primarycolor,
+                    elevation: 0.0,
+                    leading: IconButton(
+                        color: secondarycolor,
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyApp()));
+                        })),
+                body: Container(
+                  color: primarycolor,
+                  child: StreamBuilder(
+                    stream: _compte.snapshots(),
+                    builder: (
+                      context,
+                      AsyncSnapshot<QuerySnapshot> streamSnapshot,
+                    ) {
+                      if (streamSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 14),
+                        child: ListView.builder(
+                            itemCount: streamSnapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              final DocumentSnapshot documentSnapshot =
+                                  streamSnapshot.data!.docs[index];
+                              return Column(children: [
+                                ProfileWidget(
+                                  imagePath: usered.imagePath,
+                                ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                Column(children: [
+                                  Text(
+                                    "non connecté",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 17,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(
-                                    height: 24,
+                                    height: 4,
                                   ),
-                                  Column(children: [
-                                    Text(
-                                      "non connecté",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 17,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          documentSnapshot['nom'],
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          documentSnapshot['prenom'],
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    // Text(
-                                    //   "non connecté",
-                                    //   style: GoogleFonts.poppins(
-                                    //     color: Colors.grey,
-                                    //   ),
-                                    // ), mettre le display.name
-                                  ]),
-                                  const SizedBox(
-                                    height: 24,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Connexion()));
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: const StadiumBorder(),
-                                        padding: const EdgeInsets.all(14),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        documentSnapshot['nom'],
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 17,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            "Se Connecter",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                  const SizedBox(
-                                    height: 24,
+                                      Text(
+                                        documentSnapshot['prenom'],
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 17,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
-                                  const CoiffeuseNumbersWidget(),
-                                  const CoiffeuseNumbersWidget2(),
-                                  const SizedBox(
-                                    height: 48,
-                                  ),
-                                ]);
-                              }),
-                        );
-                      },
-                    ),
+                                  // Text(
+                                  //   "non connecté",
+                                  //   style: GoogleFonts.poppins(
+                                  //     color: Colors.grey,
+                                  //   ),
+                                  // ), mettre le display.name
+                                ]),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Connexion()));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const StadiumBorder(),
+                                      padding: const EdgeInsets.all(14),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          "Se Connecter",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                const CoiffeuseNumbersWidget(),
+                                const CoiffeuseNumbersWidget2(),
+                                const SizedBox(
+                                  height: 48,
+                                ),
+                              ]);
+                            }),
+                      );
+                    },
                   ),
-                );
-              }
-            }),
-      );
+                ),
+              );
+            }
+          }),
+    );
+  }
 
   Widget buildAbout() => StreamBuilder(
       stream: _compte.snapshots(),

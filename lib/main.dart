@@ -1,5 +1,5 @@
-import 'package:coiffeur/pages/accueil_coiffeuse.dart';
-import 'package:coiffeur/pages/choix_personne.dart';
+import 'package:coiffeur/pages/authentification/connexion.dart';
+
 import 'package:coiffeur/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +11,7 @@ Future<void> main() async {
   // ignore: unused_element
 
   await Firebase.initializeApp();
+  FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
       // ignore: avoid_print
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: const MyAppCoiffeuse(),
+      home: const Connexion(),
     );
   }
 }

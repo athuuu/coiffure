@@ -1,4 +1,8 @@
-import 'package:coiffeur/main.dart';
+// ignore_for_file: avoid_print
+
+import 'package:coiffeur/pages/accueil_client.dart';
+import 'package:coiffeur/pages/authentification/inscriptionclient.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Connexion extends StatefulWidget {
@@ -9,6 +13,23 @@ class Connexion extends StatefulWidget {
 }
 
 class _ConnexionState extends State<Connexion> {
+  final emailField = TextEditingController();
+  final passwordField = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  void loginToFirebase() {
+    try {
+      auth
+          .signInWithEmailAndPassword(
+              email: emailField.text.trim(),
+              password: passwordField.text.trim())
+          .then((value) {
+        print(value.toString());
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +50,11 @@ class _ConnexionState extends State<Connexion> {
                       ),
                     ),
                   ),
-
                   const Center(
                     child: Text(
                       'Connexion à votre compte ',
                     ),
                   ),
-
                   const SizedBox(height: 10.0),
                   Container(
                     margin: const EdgeInsets.symmetric(
@@ -55,8 +74,8 @@ class _ConnexionState extends State<Connexion> {
                       ],
                     ),
                   ),
-
                   TextFormField(
+                    controller: emailField,
                     decoration: InputDecoration(
                       labelText: 'Votre mail',
                       labelStyle: TextStyle(
@@ -66,8 +85,8 @@ class _ConnexionState extends State<Connexion> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-
                   TextFormField(
+                    controller: passwordField,
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
                         color: Colors.grey[400],
@@ -85,7 +104,7 @@ class _ConnexionState extends State<Connexion> {
                     ),
 
                     validator: (value) => value != null && value.isEmpty
-                        ? "Entrer votre mot de passe est obligatoire. "
+                        ? "Entrer votre mot de passe est obligatoire."
                         : null, // ici si la taille du mot de passe n'est pas supérieur ou égal a 6  alors le message  s'afficheras ou alors le mdp est valide
                   ),
                   Container(
@@ -94,12 +113,12 @@ class _ConnexionState extends State<Connexion> {
                     child: Column(children: [
                       ElevatedButton(
                           onPressed: () {
+                            loginToFirebase();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MyApp()));
+                                    builder: (context) => const MyAppClient()));
                           },
-                          // tu remplace par la fonction signIn pour se conencter quand tu la fera
                           style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder(),
                             padding: const EdgeInsets.all(14),
@@ -118,25 +137,26 @@ class _ConnexionState extends State<Connexion> {
                               ),
                             ],
                           )),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 14),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.all(14),
+                          ),
+                          child: const Text('Créez un compte ?'),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const InscriptionClient()));
+                          },
+                        ),
+                      )
                     ]),
                   ),
-                  // ElevatedButton(
-                  //   style: ButtonStyle(
-                  //     backgroundColor: MaterialStateProperty.all<Color>(secondarycolor),
-                  //     shape: MaterialStateProperty.all<OutlinedBorder>(
-                  //       const RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.all(
-                  //           Radius.circular(20))
-                  //       ))
-                  //   ),
-
-                  //   child: const Text('Connexion',)
-                  //   ,
-                  // onPressed: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => const MyApp()));
-                  // })
                 ])))));
   }
 }

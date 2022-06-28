@@ -23,12 +23,12 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: primarycolor,
         elevation: 0.0,
         centerTitle: true,
         title: const Text(
           "Prestations",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: secondarycolor),
         ),
         leading: IconButton(
           onPressed: () {
@@ -40,7 +40,7 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
           },
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: secondarycolor,
           ),
         ),
       ),

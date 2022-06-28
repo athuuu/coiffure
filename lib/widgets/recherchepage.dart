@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/model/commande/commande.dart';
-import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
