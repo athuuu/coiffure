@@ -25,6 +25,8 @@ class _InscriptionClientState extends State<InscriptionClient> {
   final TextEditingController _prenom = TextEditingController();
   final TextEditingController _naissance = TextEditingController();
   final TextEditingController _description = TextEditingController();
+  final TextEditingController _adresse = TextEditingController();
+  final TextEditingController _cpltadresse = TextEditingController();
 
   Future<void> addUser(String userID, String pseudo, String naissance) {
     return firestore
@@ -42,9 +44,9 @@ class _InscriptionClientState extends State<InscriptionClient> {
         );
   }
 
-  void signUpToFirebase() {
+  Future<UserCredential?> signUpToFirebase() async {
     try {
-      auth
+      return await auth
           .createUserWithEmailAndPassword(
         email: _mail.text.trim(),
         password: _mdp.text.trim(),
@@ -52,10 +54,12 @@ class _InscriptionClientState extends State<InscriptionClient> {
           .then((value) {
         // ignore: avoid_print
         print(value.user!.uid);
+        return value;
       });
     } catch (e) {
       // ignore: avoid_print
       print(e.toString());
+      rethrow;
     }
   }
 
@@ -197,6 +201,28 @@ class _InscriptionClientState extends State<InscriptionClient> {
               border: const OutlineInputBorder(),
             ),
           ),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _adresse,
+            decoration: InputDecoration(
+              labelText: 'adresse ',
+              labelStyle: TextStyle(
+                color: Colors.grey[400],
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _cpltadresse,
+            decoration: InputDecoration(
+              labelText: 'complement d\'adresse',
+              labelStyle: TextStyle(
+                color: Colors.grey[400],
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
           const SizedBox(height: 10.0),
           TextFormField(
             controller: _description,
@@ -214,19 +240,23 @@ class _InscriptionClientState extends State<InscriptionClient> {
             child: Column(children: [
               ElevatedButton(
                   onPressed: () async {
-                    signUpToFirebase();
                     const AlertDialog(
                         title: Text(
                             'un mail de confirmation va vous etre envoyé pour confirmer la création de votre compte'));
-                    final id = await createUser();
-                    await _compteclient.doc(id).set({
-                      "mail": _mail.text,
-                      "mdp": _mdp.text,
-                      "nom": _nom.text,
-                      "prenom": _prenom.text,
-                      "naissance": _naissance.text,
-                      "description": _description.text,
-                    });
+                    UserCredential? userCredential = await signUpToFirebase();
+                    if (userCredential != null) {
+                      await _compteclient.doc(userCredential.user!.uid).set({
+                        "mail": _mail.text,
+                        "mdp": _mdp.text,
+                        "nom": _nom.text,
+                        "prenom": _prenom.text,
+                        "naissance": _naissance.text,
+                        "description": _description.text,
+                        "adresse": _adresse.text,
+                        "cpltadresse": _cpltadresse.text,
+                      });
+                    }
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

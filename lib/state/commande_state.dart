@@ -1,4 +1,3 @@
-import 'package:coiffeur/model/commande/commande.dart';
 import 'package:coiffeur/model/rdv.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';

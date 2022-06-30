@@ -1,3 +1,4 @@
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,8 @@ AppBar buildAppBar(BuildContext context) {
         color: Colors.black,
       ),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MyAppCoiffeuse()));
       },
     ),
     backgroundColor: Colors.transparent,

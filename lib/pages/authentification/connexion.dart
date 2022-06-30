@@ -1,7 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/pages/accueil_client.dart';
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/inscriptionclient.dart';
+
+import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,22 +16,50 @@ class Connexion extends StatefulWidget {
   State<Connexion> createState() => _ConnexionState();
 }
 
+class Prestation {
+  final int id;
+  final String nom;
+
+  Prestation({
+    required this.id,
+    required this.nom,
+  });
+}
+
 class _ConnexionState extends State<Connexion> {
+  // ignore: prefer_final_fields
+
   final emailField = TextEditingController();
   final passwordField = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-  void loginToFirebase() {
+
+  // ignore: prefer_typing_uninitialized_variables
+  var user;
+
+  loginToFirebase() async {
     try {
-      auth
-          .signInWithEmailAndPassword(
-              email: emailField.text.trim(),
-              password: passwordField.text.trim())
-          .then((value) {
-        print(value.toString());
-      });
-    } catch (e) {
+      var value = await auth.signInWithEmailAndPassword(
+          email: emailField.text.trim(), password: passwordField.text.trim());
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('compteclient')
+          .doc(value.user?.uid)
+          .get();
+
+      if (snapshot.exists) {
+        return snapshot.data();
+      } else {
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
       print(e.toString());
+      rethrow;
     }
+  }
+
+  @override
+  void initState() {
+    user = null;
+    super.initState();
   }
 
   @override
@@ -86,6 +118,7 @@ class _ConnexionState extends State<Connexion> {
                   ),
                   const SizedBox(height: 10.0),
                   TextFormField(
+                    obscureText: true,
                     controller: passwordField,
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
@@ -112,14 +145,43 @@ class _ConnexionState extends State<Connexion> {
                         horizontal: 40, vertical: 14),
                     child: Column(children: [
                       ElevatedButton(
-                          onPressed: () {
-                            loginToFirebase();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MyAppClient()));
+                          onPressed: () async {
+                            try {
+                              var tmp = await loginToFirebase();
+                              setState(() => user = tmp);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => user == null ||
+                                              user['idVendeur'] == null
+                                          ? const MyAppClient()
+                                          : const MyAppCoiffeuse()));
+                            } on FirebaseAuthException catch (e) {
+                              switch (e.code) {
+                                case 'wrong-password':
+                                  print('wrong password');
+                                  showDialog(
+                                      context: context,
+                                      builder: (ctx) => const AlertDialog(
+                                          title: Text(
+                                              'Votre mot de passe est incorrect')));
+                                  break;
+                                case 'user-not-found':
+                                  print('user not found');
+                                  showDialog(
+                                      context: context,
+                                      builder: (ctx) => const AlertDialog(
+                                          title:
+                                              Text('utilisateur non trouvé')));
+                                  break;
+                                default:
+                                  print('an error occured, try later');
+                                  break;
+                              }
+                            }
                           },
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: secondarycolor,
                             shape: const StadiumBorder(),
                             padding: const EdgeInsets.all(14),
                           ),
@@ -142,6 +204,7 @@ class _ConnexionState extends State<Connexion> {
                             horizontal: 40, vertical: 14),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: secondarycolor,
                             shape: const StadiumBorder(),
                             padding: const EdgeInsets.all(14),
                           ),

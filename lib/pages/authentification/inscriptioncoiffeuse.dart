@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/main.dart';
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -59,12 +60,11 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
             IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const MyApp()));
+                  Navigator.pop(context);
                 }),
             const SizedBox(width: 55),
             const Text(
-              'Créer un compte ',
+              'Devenir prestataire ',
             ),
           ]),
           const SizedBox(height: 10.0),
@@ -107,24 +107,42 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               border: const OutlineInputBorder(),
             ),
           ),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _diplome,
+            decoration: InputDecoration(
+              labelText: "diplomes",
+              labelStyle: TextStyle(
+                color: Colors.grey[400],
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
           const SizedBox(height: 30),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
             child: Column(children: [
               ElevatedButton(
                   onPressed: () async {
-                    final id = await createUser();
-                    await _compte.doc(id).set({
-                      "experience": _experience.text,
-                      "prestation": _prestations.text,
-                      "diplome": _diplome.text,
-                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const MyAppCoiffeuse()));
+                    await _compte.add({
+                      "experience": _experience.text,
+                      "prestation": _prestations.text,
+                      "diplome": _diplome.text,
+                    }).then((value) {
+                      // ignore: avoid_print
+                      print(FirebaseAuth.instance.currentUser!.uid);
+                      return FirebaseFirestore.instance
+                          .collection('compteclient')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update({'idVendeur': value.id});
+                    });
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: secondarycolor,
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.all(14),
                   ),
@@ -133,7 +151,7 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
                     children: const [
                       SizedBox(width: 10),
                       Text(
-                        "Passer en compte coiffeur",
+                        "Devenir prestataire",
                         style: TextStyle(
                           color: primarycolor,
                           fontSize: 16,
@@ -147,9 +165,5 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
         ]),
       ),
     )));
-  }
-
-  Future<String> createUser() async {
-    return "p02TgJm61xM9hRnEzI76HJclnr73";
   }
 }

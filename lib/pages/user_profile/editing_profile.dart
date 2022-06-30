@@ -1,6 +1,6 @@
 import 'package:coiffeur/pages/user_profile/profile_widget.dart';
 import 'package:coiffeur/pages/user_profile/user.dart';
-import 'package:coiffeur/pages/user_profile/coiffeuse_page_v2.dart';
+import 'package:coiffeur/pages/user_profile/profil_coiffeuse_page.dart';
 import 'package:flutter/material.dart';
 import 'user_pref.dart';
 import 'textfwid.dart';

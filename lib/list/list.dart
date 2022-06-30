@@ -94,6 +94,8 @@ class _BigContenuState extends State<BigContenu> {
                 itemBuilder: (content, index) {
                   final DocumentSnapshot documentSnapshot =
                       streamsnapshot.data!.docs[index];
+
+                  final dareTime = documentSnapshot["date"] as Timestamp;
                   return InkWell(
                     onTap: () {
                       Navigator.push(
@@ -178,7 +180,7 @@ class _BigContenuState extends State<BigContenu> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: kDefaultPadding),
                                   child: Text(
-                                    "Date :  ${(documentSnapshot["date"] as Timestamp).toDate()}",
+                                    "Date :  ${DateTime.fromMicrosecondsSinceEpoch(dareTime.microsecondsSinceEpoch)}",
                                     style: GoogleFonts.poppins(
                                       fontSize: 12,
                                     ),

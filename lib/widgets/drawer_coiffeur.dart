@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/data/rdv_pages.dart';
-import 'package:coiffeur/pages/authentification/inscriptioncoiffeuse.dart';
-import 'package:coiffeur/pages/user_profile/coiffeuse_page_v2.dart';
+
+import 'package:coiffeur/pages/user_profile/profil_coiffeuse_page.dart';
 import 'package:coiffeur/prestations/prest.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -79,27 +79,6 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                             builder: (context) => const CoiffeusePageV2()));
                       },
                       child: const Text('Profil',
-                          style: TextStyle(
-                            fontSize: firstsize,
-                            color: secondarycolor,
-                          )),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.verified_user,
-                      size: 40,
-                      color: secondarycolor,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                const InscriptionCoiffeuse()));
-                      },
-                      child: const Text('Inscription',
                           style: TextStyle(
                             fontSize: firstsize,
                             color: secondarycolor,

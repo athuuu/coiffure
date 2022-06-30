@@ -65,10 +65,10 @@ dependencies:
   riverpod: ^1.0.3
   flutter_riverpod: ^1.0.4
   email_validator: ^2.0.1
+  multi_select_flutter: ^4.1.2
 
 dev_dependencies:
-  build_runner:
-
+  build_runner: ^2.1.11
   flutter_test:
     sdk: flutter
 

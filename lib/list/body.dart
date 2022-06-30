@@ -130,17 +130,18 @@ class _BodyDetailState extends State<BodyDetail> {
             children: <Widget>[
               ElevatedButton(
                   onPressed: () async {
-                    await _alertes.doc("Q7HcYoubMYxlaz932iWG").update(
+                    await _alertes.doc("wFDwElj9Xu5Uh6JPwhgH").update(
                       {
                         "coiffeuse": {
                           "id": "123",
-                          "name": "Arthur",
+                          "name": "test",
                         }
                       },
                     );
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.all(14),
                   ),
@@ -164,6 +165,7 @@ class _BodyDetailState extends State<BodyDetail> {
               ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.all(14),
                   ),

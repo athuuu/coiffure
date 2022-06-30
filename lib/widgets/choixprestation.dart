@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/card_choice.dart';
+import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 
 class PageChoixPresta extends StatefulWidget {
@@ -69,13 +70,15 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
                         return CardChoice(
                           title: "${documentSnapshot["prestation"]} ",
                           subtitle:
-                              "${documentSnapshot["prix"].toStringAsFixed(2)} € - ${documentSnapshot["temps"]} ",
+                              "${documentSnapshot["prix"]} € - ${documentSnapshot["temps"]} ",
                           onPressed: () {
                             widget.pageController.animateToPage(
                               2,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
                             );
+                            commandeInfoC
+                                .setPrestation(documentSnapshot["prestation"]);
                           },
                         );
                       }),
@@ -86,42 +89,19 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
               },
             ),
           ),
+          TextButton(
+            child: const Text(
+                'cliquez ici pour avoir une indication des prix pour un lissage selon la longueur de vos cheveux',
+                style: TextStyle(color: secondarycolor)),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                      title: Image.asset('assets/tariflongueur.jpeg')));
+            },
+          )
         ],
       ),
     );
   }
 }
-
-// Column(
-// children: <Widget>[
-// Container(
-// decoration: const BoxDecoration(
-// border: Border(
-// bottom: BorderSide(
-// width: 1, color: secondarycolor))),
-// child: Row(
-// mainAxisAlignment:
-// MainAxisAlignment.spaceBetween,
-// children: [
-// SizedBox(
-// width: 100,
-// child: Text(
-// documentSnapshot["prestation"])),
-// SizedBox(
-// width: 30,
-// child: Text(documentSnapshot["prix"]
-// .toString())),
-// Text(documentSnapshot["temps"]),
-// Checkbox(
-// value: isChecked,
-// onChanged: (bool? value) {
-// setState(() {
-// isChecked = value!;
-// });
-// },
-// )
-// ],
-// ),
-// )
-// ],
-// );

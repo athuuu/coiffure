@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/state/commande_state.dart';
+
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/card_choice.dart';
+import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:async';
 
 import 'package:wheel_chooser/wheel_chooser.dart';
 
@@ -20,58 +20,23 @@ class PageChoixHoraire extends ConsumerStatefulWidget {
 class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
   final databaseReference = FirebaseFirestore.instance;
   final myController = TextEditingController();
-  TimeOfDay? time;
-  DateTime? _dateTime;
+  DateTime? dateTime;
   late int mins;
   late int heure;
-  late String moment;
+  String? moment;
 
-  String getHeure() {
-    if (time == null) {
-      return 'Horaire';
-    } else {
-      return '${time!.hour}:${time!.minute}';
-    }
+  @override
+  void initState() {
+    super.initState();
+    initValue();
   }
 
-  Future pickTime() async {
-    // ignore: prefer_const_constructors, unused_local_variable
-    final initialTime = TimeOfDay(hour: 0, minute: 0);
-    final newTime = await showTimePicker(
-      context: context,
-      initialTime: time ?? TimeOfDay.now(),
-    );
-
-    if (newTime == null) return;
-
-    setState(() => time = newTime);
-  }
-
-  Future _selectDate() async {
-    // ignore: unused_local_variable
-    DateTime? picker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2030),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-              onPrimary: secondarycolor,
-              onSurface: primarycolor,
-              primary: thirdcolor,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  backgroundColor: primarycolor,
-                  textStyle: const TextStyle(color: thirdcolor)),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
+  initValue() {
+    setState(() {
+      heure = commandeInfoC.heure ?? 0;
+      mins = commandeInfoC.mins ?? 0;
+      dateTime = commandeInfoC.date;
+    });
   }
 
   @override
@@ -82,7 +47,7 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
         elevation: 0.0,
         centerTitle: true,
         title: const Text(
-          'Choisissez une date et un horaire',
+          'Date et un horaire',
           style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
@@ -104,104 +69,103 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
         children: [
           Column(
             children: [
-              TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(secondarycolor),
-                  ),
-                  child: Text(
-                    _dateTime == null
-                        ? 'choisissez une heure'
-                        : _dateTime.toString(),
-                    style: const TextStyle(color: primarycolor),
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                              title: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      SizedBox(
-                                        width: 50,
-                                        height: 100,
-                                        child: WheelChooser.integer(
-                                          // ignore: avoid_print
-                                          onValueChanged: (heure) =>
-                                              // ignore: avoid_print
-                                              print(heure),
-                                          maxValue: 12,
-                                          minValue: 1,
+              SizedBox(
+                width: 220,
+                child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(secondarycolor),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "$heure : $mins",
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                                title: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 100,
+                                          child: WheelChooser.integer(
+                                            onValueChanged: (heure) {
+                                              setState(() {
+                                                this.heure = heure;
+                                              });
+                                              commandeInfoC.setHeure(heure);
+                                            },
+                                            maxValue: 24,
+                                            minValue: 1,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 50,
-                                        height: 100,
-                                        child: WheelChooser.integer(
-                                          // ignore: avoid_print
-                                          onValueChanged: (mins) =>
-                                              // ignore: avoid_print
-                                              print(mins),
-                                          maxValue: 45,
-                                          minValue: 00,
-                                          step: 15,
+                                        const Text(":"),
+                                        SizedBox(
+                                          width: 50,
+                                          height: 100,
+                                          child: WheelChooser.integer(
+                                            onValueChanged: (mins) {
+                                              setState(() {
+                                                this.mins = mins;
+                                              });
+                                              commandeInfoC.setMins(mins);
+                                            },
+                                            maxValue: 45,
+                                            minValue: 000,
+                                            step: 15,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 60,
-                                        height: 100,
-                                        child: WheelChooser(
-                                            // ignore: avoid_print
-                                            onValueChanged: (moment) =>
-                                                // ignore: avoid_print
-                                                print(moment),
-                                            datas: const [
-                                              "AM",
-                                              "PM",
-                                            ]),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    secondarycolor)),
-                                        child: const Text('Ok'),
-                                        onPressed: () {},
-                                      ),
-                                      ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    secondarycolor)),
-                                        child: const Text('annuler'),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ));
-                  }),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      secondarycolor)),
+                                          child: const Text('Ok'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      secondarycolor)),
+                                          child: const Text('annuler'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ));
+                    }),
+              ),
               TextButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(secondarycolor),
                 ),
                 child: Text(
-                    _dateTime == null
+                    dateTime == null
                         ? 'choisissez une date'
-                        : _dateTime.toString(),
+                        : dateTime.toString(),
                     style: const TextStyle(color: primarycolor)),
                 onPressed: () {
                   showDatePicker(
@@ -211,8 +175,9 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                     lastDate: DateTime(2090),
                   ).then((date) {
                     setState(() {
-                      _dateTime = date;
+                      dateTime = date;
                     });
+                    commandeInfoC.setDate(date!);
                   });
                 },
               ),
@@ -229,15 +194,26 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                     widget.pageController.animateToPage(3,
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut);
+                    commandeInfoC.setLieu("A domicile");
                   },
                 ),
                 CardChoice(
                   title: "Chez la coiffeuse",
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.pageController.animateToPage(3,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
+                    commandeInfoC.setLieu("Chez la coiffeuse");
+                  },
                 ),
                 CardChoice(
                   title: "En salon",
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.pageController.animateToPage(3,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
+                    commandeInfoC.setLieu("En salon");
+                  },
                 ),
               ],
             ),

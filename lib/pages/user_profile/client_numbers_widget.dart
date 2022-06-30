@@ -17,8 +17,9 @@ class _ClientNumbersWidgetState extends State<ClientNumbersWidget> {
     return StreamBuilder(
         stream: _compteclient.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-          if (!streamSnapshot.hasData || streamSnapshot.data == null)
+          if (!streamSnapshot.hasData || streamSnapshot.data == null) {
             return const Text('');
+          }
           return SizedBox(
             height: 400,
             width: 300,

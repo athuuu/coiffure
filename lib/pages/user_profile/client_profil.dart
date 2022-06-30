@@ -132,8 +132,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                           child: ListView.builder(
                               itemCount: streamSnapshot.data!.docs.length,
                               itemBuilder: (context, index) {
-                                final DocumentSnapshot documentSnapshot =
-                                    streamSnapshot.data!.docs[index];
                                 return Column(children: [
                                   ProfileWidget(
                                     imagePath: usered.imagePath,
@@ -155,22 +153,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          documentSnapshot['nom'],
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          documentSnapshot['prenom'],
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
                                     ),
                                     // Text(
                                     //   "non connecté",
@@ -191,6 +173,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                                     const Connexion()));
                                       },
                                       style: ElevatedButton.styleFrom(
+                                        backgroundColor: secondarycolor,
                                         shape: const StadiumBorder(),
                                         padding: const EdgeInsets.all(14),
                                       ),
@@ -200,7 +183,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                         children: [
                                           const SizedBox(width: 10),
                                           Text(
-                                            "Se Deconnecter",
+                                            "Se Connecter",
                                             style: GoogleFonts.poppins(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -212,7 +195,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                                   const SizedBox(
                                     height: 24,
                                   ),
-                                  const ClientNumbersWidget(),
+                                  const Text('vous n\'êtes pas connecté'),
                                   const SizedBox(
                                     height: 48,
                                   ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/data/rdvdatabase.dart';
-import 'package:coiffeur/data/rdv_details_pages.dart';
+
 import 'package:coiffeur/list/constant.dart';
 import 'package:coiffeur/list/detaillist.dart';
 import 'package:coiffeur/utils/utils.dart';
@@ -191,16 +191,6 @@ class _RdvPageState extends State<RdvPage> {
             );
           }
           return const Center(child: CircularProgressIndicator());
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: secondarycolor,
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const RdvDetailPage(rdvId: 1)));
-
-          refreshRdv();
         },
       ),
     );

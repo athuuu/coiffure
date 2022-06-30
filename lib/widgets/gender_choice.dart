@@ -2,6 +2,8 @@ import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/card_choice.dart';
 import 'package:flutter/material.dart';
 
+CommandeInfoC commandeInfoC = CommandeInfoC();
+
 class GenderChoice extends StatefulWidget {
   const GenderChoice({Key? key, required this.pageController})
       : super(key: key);
@@ -14,6 +16,11 @@ class GenderChoice extends StatefulWidget {
 class _GenderChoiceState extends State<GenderChoice> {
   CommandeInfos commandeInfo = CommandeInfos();
   bool isSelected = true;
+  @override
+  void initState() {
+    super.initState();
+    commandeInfoC = CommandeInfoC();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +45,7 @@ class _GenderChoiceState extends State<GenderChoice> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     );
+                    commandeInfoC.setGenreI(1);
                   },
                 ),
                 CardChoice(
@@ -51,6 +59,7 @@ class _GenderChoiceState extends State<GenderChoice> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     );
+                    commandeInfoC.setGenreI(0);
                   },
                 ),
               ],
@@ -59,5 +68,58 @@ class _GenderChoiceState extends State<GenderChoice> {
         ],
       ),
     );
+  }
+}
+
+class CommandeInfoC {
+  int? genre;
+  String? prestation;
+  DateTime? date;
+  int? heure;
+  int? mins;
+  String? lieu;
+  int? prix;
+
+  CommandeInfoC({
+    this.genre,
+    this.mins,
+    this.prestation,
+    this.date,
+    this.heure,
+    this.lieu,
+    this.prix,
+  });
+
+  setGenreI(int genre) {
+    this.genre = genre;
+  }
+
+  setPrestation(String prestation) {
+    this.prestation = prestation;
+  }
+
+  setDate(DateTime date) {
+    this.date = date;
+  }
+
+  setHeure(int heure) {
+    this.heure = heure;
+  }
+
+  setMins(int mins) {
+    this.mins = mins;
+  }
+
+  setLieu(String lieu) {
+    this.lieu = lieu;
+  }
+
+  setPrix(int prix) {
+    this.prix = prix;
+  }
+
+  @override
+  String toString() {
+    return "$genre, $prestation, $heure, $mins, $date, $lieu";
   }
 }

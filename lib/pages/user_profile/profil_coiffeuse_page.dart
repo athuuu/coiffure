@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/main.dart';
+
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
+import 'package:coiffeur/pages/user_profile/client_numbers_widget.dart';
+import 'package:coiffeur/pages/user_profile/client_numbers_widget2.dart';
+import 'package:coiffeur/pages/user_profile/client_profil.dart';
 import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +32,18 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
     // ignore: avoid_print
     print(user.toString());
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primarycolor,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyAppCoiffeuse()));
+            },
+            icon: const Icon(Icons.arrow_back, color: secondarycolor)),
+      ),
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
@@ -54,14 +70,14 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                       ),
                       Column(children: [
                         Text(
-                          user.email ?? 'N/D',
+                          user.email ?? '',
                           style: GoogleFonts.poppins(
                               fontSize: 17,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          user.displayName ?? 'N/D',
+                          user.displayName ?? '',
                           style: GoogleFonts.poppins(
                               fontSize: 17,
                               color: Colors.black,
@@ -81,9 +97,15 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                         height: 24,
                       ),
                       ElevatedButton(
-                          onPressed: () => FirebaseAuth.instance
-                              .signOut(), //la fonction signOut
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Connexion()));
+                          }, //la fonction signOut
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: secondarycolor,
                             shape: const StadiumBorder(),
                             padding: const EdgeInsets.all(14),
                           ),
@@ -106,28 +128,16 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                       ),
                       const CoiffeuseNumbersWidget(),
                       const CoiffeuseNumbersWidget2(),
+                      const ClientNumbersWidget(),
                       const SizedBox(
                         height: 48,
                       ),
-                      buildAbout(),
                     ],
                   ),
                 ),
               );
             } else {
               return Scaffold(
-                appBar: AppBar(
-                    backgroundColor: primarycolor,
-                    elevation: 0.0,
-                    leading: IconButton(
-                        color: secondarycolor,
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MyApp()));
-                        })),
                 body: Container(
                   color: primarycolor,
                   child: StreamBuilder(
@@ -225,7 +235,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                                 const SizedBox(
                                   height: 24,
                                 ),
-                                const CoiffeuseNumbersWidget(),
+                                const ClientPageV2(),
                                 const CoiffeuseNumbersWidget2(),
                                 const SizedBox(
                                   height: 48,

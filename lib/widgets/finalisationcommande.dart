@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 
 class FinalisationCommande extends StatefulWidget {
@@ -12,8 +15,6 @@ class FinalisationCommande extends StatefulWidget {
 
 class _FinalisationCommandeState extends State<FinalisationCommande> {
   final databaseReference = FirebaseFirestore.instance;
-  final CollectionReference _alertes =
-      FirebaseFirestore.instance.collection('alertes');
 
   @override
   Widget build(BuildContext context) {
@@ -42,61 +43,82 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
       body: Column(
         children: [
           Center(
-            child: SizedBox(
-              height: 220,
-              width: 300,
-              child: StreamBuilder(
-                  stream: _alertes.snapshots(),
-                  builder:
-                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                    if (streamSnapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: streamSnapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            final documentSnapshot =
-                                streamSnapshot.data!.docs[index].data()
-                                    as Map<String, dynamic>;
-                            return Column(
-                              children: [
-                                const SizedBox(height: 15),
-                                const Text('Nombre de Clients',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                const Text('1 personne'),
-                                const Text('Type de prestation',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                Text(documentSnapshot["prestation"]),
-                                const Text('Dates et heures',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                Text(
-                                    "${(documentSnapshot["date"] as Timestamp).toDate()}"),
-                                const Text('nom et prénom',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(documentSnapshot["nom"]),
-                                    const SizedBox(width: 5),
-                                    Text(documentSnapshot["prenom"]),
-                                  ],
-                                ),
-                                const Text('adresse',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                Text(documentSnapshot["adresse"]),
-                                const Text('complement d\'adresse',
-                                    style: TextStyle(fontWeight: firstweight)),
-                                Text(documentSnapshot["complement"])
-                              ],
-                            );
-                          });
-                    }
-                    return const CircularProgressIndicator();
-                  }),
+            child: Column(
+              children: [
+                const Text("nom"),
+                const Text("prenom"),
+                const Text("prestation"),
+                Text(
+                  commandeInfoC.prestation!,
+                ),
+                const Text(
+                  'Dates et heures',
+                ),
+                Text("${commandeInfoC.heure} ${commandeInfoC.mins}"),
+                Text("${commandeInfoC.date}"),
+                const Text(
+                  'adresse',
+                ),
+                const Text("adresse"),
+                const Text(
+                  'complement d\'adresse',
+                ),
+                const Text("complement")
+              ],
             ),
           ),
-          const Text('A domicile'),
+          Text(commandeInfoC.lieu!),
           const Text('Acompte sur reservation - 10€'),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 40,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+                    return RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20));
+                  }),
+                  backgroundColor: MaterialStateProperty.all(secondarycolor)),
+              child: const Text('Prendre votre Rendez-vous'),
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (_) => const AlertDialog(
+                          title: Text('Vers la page de paiement '),
+                        ));
+                await addDataToFirebase();
+                widget.pageController.animateToPage(
+                  0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+          )
         ],
       ),
     );
+  }
+
+  addDataToFirebase() async {
+    try {
+      await databaseReference.collection("alertes").add({
+        "nom": "test",
+        "prenom": "test",
+        "adresse": "3 rue de la paix",
+        "complement": "59000 Lille",
+        "date": commandeInfoC.date,
+        "prestation": commandeInfoC.prestation,
+        "prix": 100,
+        "coiffeuse": null,
+      }).then((value) async {
+        await databaseReference
+            .collection("alertes")
+            .doc(value.id)
+            .update({"id": value.id});
+      });
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

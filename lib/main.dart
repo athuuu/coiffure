@@ -1,3 +1,4 @@
+import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
 
 import 'package:coiffeur/theme.dart';
@@ -11,13 +12,16 @@ Future<void> main() async {
   // ignore: unused_element
 
   await Firebase.initializeApp();
+  // ignore: unused_local_variable
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
+      const Connexion();
       // ignore: avoid_print
       print('pas fais');
     } else {
       // ignore: avoid_print
+
       print('fais: ' + user.email!);
     }
   });
