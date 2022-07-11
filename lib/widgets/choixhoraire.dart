@@ -104,7 +104,7 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                               });
                                               commandeInfoC.setHeure(heure);
                                             },
-                                            maxValue: 24,
+                                            maxValue: 23,
                                             minValue: 1,
                                           ),
                                         ),
@@ -120,7 +120,7 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                               commandeInfoC.setMins(mins);
                                             },
                                             maxValue: 45,
-                                            minValue: 000,
+                                            minValue: 00,
                                             step: 15,
                                           ),
                                         ),
@@ -137,16 +137,6 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                                   MaterialStateProperty.all(
                                                       secondarycolor)),
                                           child: const Text('Ok'),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      secondarycolor)),
-                                          child: const Text('annuler'),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },

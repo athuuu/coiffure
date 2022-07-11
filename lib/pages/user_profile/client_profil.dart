@@ -53,9 +53,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
             } else if (snapshot.hasData) {
               return Scaffold(
                 backgroundColor: Colors.white,
-                body: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                body: SizedBox(
                   child: ListView(
                     children: [
                       ProfileWidget(

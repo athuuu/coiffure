@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
 import 'package:coiffeur/pages/user_profile/client_numbers_widget.dart';
-import 'package:coiffeur/pages/user_profile/client_numbers_widget2.dart';
+
 import 'package:coiffeur/pages/user_profile/client_profil.dart';
 import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
 import 'package:coiffeur/utils/utils.dart';
@@ -52,7 +52,8 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
-              return const Center(child: Text("une erreur s'est produite"));
+              return const Center(
+                  child: Text("nous ne chargeons pas les données"));
             } else if (snapshot.hasData) {
               return Scaffold(
                 backgroundColor: Colors.white,

@@ -1,4 +1,3 @@
-import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
 
 import 'package:coiffeur/theme.dart';
@@ -21,7 +20,6 @@ Future<void> main() async {
       print('pas fais');
     } else {
       // ignore: avoid_print
-
       print('fais: ' + user.email!);
     }
   });
