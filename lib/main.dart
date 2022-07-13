@@ -3,6 +3,7 @@ import 'package:coiffeur/pages/authentification/connexion.dart';
 import 'package:coiffeur/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -13,6 +14,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   // ignore: unused_local_variable
   FirebaseAuth auth = FirebaseAuth.instance;
+
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
       const Connexion();

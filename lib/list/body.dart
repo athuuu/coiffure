@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:coiffeur/list/constant.dart';
 import 'package:coiffeur/list/product_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -128,9 +130,10 @@ class _BodyDetailState extends State<BodyDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              // if (_alertes.id == AuthFirebase.currentUser.uid)
               ElevatedButton(
                   onPressed: () async {
-                    await _alertes.doc("3nyPx47VmEHbiQcvhm2M").update(
+                    await _alertes.doc("mmu69viyO8aahGky9Rxi").update(
                       {
                         "coiffeuse": {
                           "id": "123",
@@ -159,11 +162,62 @@ class _BodyDetailState extends State<BodyDetail> {
                       )
                     ],
                   )),
+              ElevatedButton(
+                  onPressed: () async {
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Indications'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                Text(
+                                    'Vous ne pouvez pas accepter votre rendez-vous!'),
+                                Text(
+                                    'Attendez qu\'un de nos prestataire accepte votre rendez-vous '),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    shape: const StadiumBorder(),
+                    padding: const EdgeInsets.all(14),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 10),
+                      Text(
+                        "Accepter",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  )),
               const SizedBox(
                 width: 10,
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: const StadiumBorder(),

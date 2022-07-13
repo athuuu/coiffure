@@ -4,7 +4,6 @@ import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:coiffeur/pages/user_profile/appbar_widget.dart';
-import 'package:coiffeur/pages/user_profile/user_pref.dart';
 
 class Prestation extends StatefulWidget {
   const Prestation({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class Prestation extends StatefulWidget {
 
 class _PrestationState extends State<Prestation> {
   get user => FirebaseAuth.instance.currentUser;
-  final usered = UserPreferences.myUser;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(

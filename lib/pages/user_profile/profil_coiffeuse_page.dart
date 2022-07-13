@@ -9,8 +9,7 @@ import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:coiffeur/pages/user_profile/user_pref.dart';
-import 'profile_widget.dart';
+
 import 'coiffeuse_numbers_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,7 +22,7 @@ class CoiffeusePageV2 extends StatefulWidget {
 
 class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
   get user => FirebaseAuth.instance.currentUser;
-  final usered = UserPreferences.myUser;
+
   final CollectionReference _compte =
       FirebaseFirestore.instance.collection('comptecoiffeuse');
 
@@ -63,9 +62,6 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
-                      ProfileWidget(
-                        imagePath: usered.imagePath,
-                      ),
                       const SizedBox(
                         height: 24,
                       ),
@@ -77,22 +73,9 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          user.displayName ?? '',
-                          style: GoogleFonts.poppins(
-                              fontSize: 17,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // Text(
-                        //   user.email, //mettre le nom plus tard
-                        //   style: GoogleFonts.poppins(
-                        //     color: Colors.grey,
-                        //   ),
-                        // ), mettre le display name plus tard
                       ]),
                       const SizedBox(
                         height: 24,
@@ -160,9 +143,6 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                               final DocumentSnapshot documentSnapshot =
                                   streamSnapshot.data!.docs[index];
                               return Column(children: [
-                                ProfileWidget(
-                                  imagePath: usered.imagePath,
-                                ),
                                 const SizedBox(
                                   height: 24,
                                 ),

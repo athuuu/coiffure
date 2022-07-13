@@ -120,6 +120,6 @@ class CommandeInfoC {
 
   @override
   String toString() {
-    return "$genre, $prestation, $heure, $mins, $date, $lieu";
+    return "$genre, $prestation, $heure, $mins, $date, $lieu, $prix";
   }
 }

@@ -12,16 +12,14 @@ class SqfDatabase {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-
     _database = await _initDB('rdv.db');
     return _database!;
   }
-  
 
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-    
+
     return await openDatabase(path, version: 2, onCreate: _createDB);
   }
 
@@ -42,41 +40,41 @@ class SqfDatabase {
 
     )
   ''');
-    }
+  }
 
-    Future<Rdv> create(Rdv rdv ) async {
-      final db = await instance.database;
+  Future<Rdv> create(Rdv rdv) async {
+    final db = await instance.database;
 
-      // final json = rdv.toJson();
-     //  const columns = 
-     //      '${Rdvfields.prestation}, ${Rdvfields.nom}, ${Rdvfields.createdTime}';
+    // final json = rdv.toJson();
+    //  const columns =
+    //      '${Rdvfields.prestation}, ${Rdvfields.nom}, ${Rdvfields.createdTime}';
 
-     //  const values = 
-     //      '${Rdvfields.prestation}, ${Rdvfields.nom}, ${Rdvfields.createdTime}';
-      
-     // final id = await db
+    //  const values =
+    //      '${Rdvfields.prestation}, ${Rdvfields.nom}, ${Rdvfields.createdTime}';
+
+    // final id = await db
     //    .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
 
-      final id = await db.insert(planning, rdv.toJson());
-      return rdv.copy(id : id);
+    final id = await db.insert(planning, rdv.toJson());
+    return rdv.copy(id: id);
+  }
+
+  Future<Rdv> readRdv(int id) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      planning,
+      columns: Rdvfields.values,
+      where: '${Rdvfields.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return Rdv.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
     }
-
-    Future<Rdv> readRdv(int id) async {
-      final db = await instance.database;
-
-      final maps = await db.query(
-        planning,
-        columns: Rdvfields.values,
-        where: '${Rdvfields.id} = ?',
-        whereArgs: [id],
-      );
-
-      if (maps.isNotEmpty) {
-        return Rdv.fromJson(maps.first);
-      } else{
-        throw Exception('ID $id not found');
-      }
-    }
+  }
 
   Future<List<Rdv>> readAllRdv() async {
     final db = await instance.database;
@@ -89,7 +87,7 @@ class SqfDatabase {
     return result.map((json) => Rdv.fromJson(json)).toList();
   }
 
-  Future<int> update(Rdv rdv) async{
+  Future<int> update(Rdv rdv) async {
     final db = await instance.database;
 
     return db.update(
@@ -100,15 +98,14 @@ class SqfDatabase {
     );
   }
 
-  Future<int> delete(int id )async {
+  Future<int> delete(int id) async {
     final db = await instance.database;
 
-    return await db.delete( 
+    return await db.delete(
       planning,
-      where : '${Rdvfields.id} = ?',
+      where: '${Rdvfields.id} = ?',
       whereArgs: [id],
     );
-
   }
 
   Future close() async {

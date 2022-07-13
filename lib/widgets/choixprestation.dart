@@ -69,8 +69,7 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
                             docs.data() as Map<String, dynamic>;
                         return CardChoice(
                           title: "${documentSnapshot["prestation"]} ",
-                          subtitle:
-                              "${documentSnapshot["prix"]} € - ${documentSnapshot["temps"]} ",
+                          subtitle: "environ ${documentSnapshot["temps"]} ",
                           onPressed: () {
                             widget.pageController.animateToPage(
                               2,
@@ -89,17 +88,6 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
               },
             ),
           ),
-          TextButton(
-            child: const Text(
-                'cliquez ici pour avoir une indication des prix pour un lissage selon la longueur de vos cheveux',
-                style: TextStyle(color: secondarycolor)),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                      title: Image.asset('assets/tariflongueur.jpeg')));
-            },
-          )
         ],
       ),
     );

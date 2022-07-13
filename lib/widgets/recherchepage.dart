@@ -3,6 +3,7 @@ import 'package:coiffeur/model/commande/commande.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
+import 'package:coiffeur/widgets/choixtaille.dart';
 import 'package:coiffeur/widgets/finalisationcommande.dart';
 import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
@@ -15,28 +16,6 @@ class PageRecherche extends StatefulWidget {
 }
 
 class _PageRechercheState extends State<PageRecherche> {
-  void addDataToFirebase() {
-    try {
-      databaseReference.collection('alertes').add({
-        "nom": "test",
-        "prenom": "test",
-        "prestation": "lissage",
-        "prix": 40,
-        "declined": false,
-        "adresse": "5 rue de la paix",
-        "coiffeuse": null,
-        "complement": "59000 Lille",
-        "accepted": false,
-        "date": "11 juin 2022 à 15:30:00 UTC+2",
-      }).then(
-          // ignore: avoid_print
-          (value) => print(value.id));
-    } catch (error) {
-      // ignore: avoid_print
-      print(error.toString());
-    }
-  }
-
   final databaseReference = FirebaseFirestore.instance;
   final PageController pageController = PageController();
   int indexPage = 0;
@@ -52,7 +31,7 @@ class _PageRechercheState extends State<PageRecherche> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (int i = 1; i <= 4; i++)
+              for (int i = 1; i <= 5; i++)
                 Container(
                   width: 30,
                   height: 30,
@@ -91,6 +70,9 @@ class _PageRechercheState extends State<PageRecherche> {
             pageController: pageController,
           ),
           PageChoixHoraire(
+            pageController: pageController,
+          ),
+          Choixtaille(
             pageController: pageController,
           ),
           FinalisationCommande(

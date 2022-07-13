@@ -47,7 +47,7 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
         elevation: 0.0,
         centerTitle: true,
         title: const Text(
-          'Date et un horaire',
+          'Date , horaire et lieu',
           style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
@@ -104,8 +104,8 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                               });
                                               commandeInfoC.setHeure(heure);
                                             },
-                                            maxValue: 23,
-                                            minValue: 1,
+                                            maxValue: 19,
+                                            minValue: 8,
                                           ),
                                         ),
                                         const Text(":"),
@@ -211,16 +211,5 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
         ],
       ),
     );
-  }
-
-  void addDataToFirebase() {
-    try {
-      databaseReference
-          .collection('client')
-          .add({}).then((value) => (value.id));
-    } catch (error) {
-      // ignore: avoid_print
-      print(error.toString());
-    }
   }
 }

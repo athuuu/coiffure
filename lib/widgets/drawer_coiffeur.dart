@@ -114,50 +114,7 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                       color: secondarycolor,
                     ),
                     TextButton(
-                      onPressed: () {
-                        // showDialog<String>(
-                        //     context: context,
-                        //     builder: (BuildContext context) => AlertDialog(
-                        //           title: Image.asset('assets/logocoiffeur.png',
-                        //               width: 80, height: 80),
-                        //           content: SizedBox(
-                        //             height: 85,
-                        //             child: Column(
-                        //               crossAxisAlignment:
-                        //                   CrossAxisAlignment.start,
-                        //               children: const [
-                        //                 Text('pages non développer',
-                        //                     style: TextStyle(
-                        //                         fontSize: 20,
-                        //                         fontWeight: firstweight)),
-                        //                 Text(
-                        //                     'les pages seront fait prochainement'),
-                        //               ],
-                        //             ),
-                        //           ),
-                        //           actions: <Widget>[
-                        //             TextButton(
-                        //               style: ButtonStyle(
-                        //                 shape: MaterialStateProperty.all<
-                        //                     OutlinedBorder>(
-                        //                   RoundedRectangleBorder(
-                        //                     borderRadius:
-                        //                         BorderRadius.circular(20),
-                        //                   ),
-                        //                 ),
-                        //                 backgroundColor:
-                        //                     MaterialStateProperty.all<Color>(
-                        //                         secondarycolor),
-                        //               ),
-                        //               onPressed: () =>
-                        //                   Navigator.pop(context, 'Cancel'),
-                        //               child: const Text('Ok, J\'ai compris',
-                        //                   style:
-                        //                       TextStyle(color: primarycolor)),
-                        //             ),
-                        //           ],
-                        //         ));
-                      },
+                      onPressed: () {},
                       child: const Text('Reglages',
                           style: TextStyle(
                             fontSize: firstsize,

@@ -1,9 +1,5 @@
-import 'package:coiffeur/pages/user_profile/profile_widget.dart';
-import 'package:coiffeur/pages/user_profile/user.dart';
 import 'package:coiffeur/pages/user_profile/profil_coiffeuse_page.dart';
 import 'package:flutter/material.dart';
-import 'user_pref.dart';
-import 'textfwid.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -13,8 +9,6 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  Usered user = UserPreferences.myUser;
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -35,19 +29,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
         body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             physics: const BouncingScrollPhysics(),
+            // ignore: prefer_const_literals_to_create_immutables
             children: [
-              ProfileWidget(
-                imagePath: user.imagePath,
-                isEdit: true,
-              ),
               const SizedBox(
                 height: 24,
-              ),
-              TextFieldWidget(
-                label: "Description",
-                text: user.about,
-                maxLines: 5,
-                onChanged: (about) {},
               ),
             ]),
       );
