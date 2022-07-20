@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/list/detaillist.dart';
 import 'package:coiffeur/list/presta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'constant.dart';
@@ -39,7 +40,9 @@ class ListPresta extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DetailScreen(),
+                        builder: (context) => DetailScreen(
+                          alerte: prestation[index],
+                        ),
                       ),
                     );
                   },
@@ -69,21 +72,36 @@ class BigContenu extends StatefulWidget {
   State<BigContenu> createState() => _BigContenuState();
 }
 
+final _alertesRef = FirebaseFirestore.instance.collection('alertes');
+
 class _BigContenuState extends State<BigContenu> {
-  final CollectionReference _alertes =
-      FirebaseFirestore.instance.collection('alertes');
+  final _alertes = _alertesRef
+      .where('clientId', isNotEqualTo: FirebaseAuth.instance.currentUser?.uid)
+      .where('coiffeuse', isNull: true);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
-        stream: _alertes.where("coiffeuse", isNull: true).snapshots(),
+        stream: _alertes.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamsnapshot) {
+          // ignore: avoid_print
+          print("user uid : ${FirebaseAuth.instance.currentUser?.uid}");
+
           if (streamsnapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+
+          if (streamsnapshot.hasData == false ||
+              streamsnapshot.data == null ||
+              streamsnapshot.data!.size == 0) {
+            return const Center(
+              child: Text('Aucune donnée'),
+            );
+          }
+
           return Container(
             margin: const EdgeInsets.symmetric(
                 horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
@@ -101,7 +119,8 @@ class _BigContenuState extends State<BigContenu> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DetailScreen(),
+                          builder: (context) =>
+                              DetailScreen(alerte: documentSnapshot),
                         ),
                       );
                     },

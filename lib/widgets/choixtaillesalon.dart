@@ -3,15 +3,16 @@ import 'package:coiffeur/widgets/card_choice.dart';
 import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 
-class Choixtaille extends StatefulWidget {
-  const Choixtaille({Key? key, required this.pageController}) : super(key: key);
+class ChoixtailleSalon extends StatefulWidget {
+  const ChoixtailleSalon({Key? key, required this.pageController})
+      : super(key: key);
   final PageController pageController;
 
   @override
-  State<Choixtaille> createState() => _ChoixtailleState();
+  State<ChoixtailleSalon> createState() => _ChoixtailleSalonState();
 }
 
-class _ChoixtailleState extends State<Choixtaille> {
+class _ChoixtailleSalonState extends State<ChoixtailleSalon> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +48,7 @@ class _ChoixtailleState extends State<Choixtaille> {
                 children: [
                   CardChoice(
                     title: "cheveux court",
-                    subtitle: '100€',
+                    subtitle: '120€',
                     onPressed: () {
                       widget.pageController.animateToPage(4,
                           duration: const Duration(milliseconds: 300),
@@ -57,7 +58,7 @@ class _ChoixtailleState extends State<Choixtaille> {
                   ),
                   CardChoice(
                     title: "cheveux Mi-long",
-                    subtitle: '120€',
+                    subtitle: '140€',
                     onPressed: () {
                       widget.pageController.animateToPage(4,
                           duration: const Duration(milliseconds: 300),
@@ -67,7 +68,7 @@ class _ChoixtailleState extends State<Choixtaille> {
                   ),
                   CardChoice(
                     title: "cheveux long ",
-                    subtitle: '140€',
+                    subtitle: '160€',
                     onPressed: () {
                       widget.pageController.animateToPage(4,
                           duration: const Duration(milliseconds: 300),
@@ -77,7 +78,7 @@ class _ChoixtailleState extends State<Choixtaille> {
                   ),
                   CardChoice(
                     title: "cheveux extras-long ",
-                    subtitle: '160€',
+                    subtitle: '180€',
                     onPressed: () {
                       widget.pageController.animateToPage(4,
                           duration: const Duration(milliseconds: 300),

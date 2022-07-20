@@ -8,12 +8,13 @@ class MyAppClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const Drawer(
+      drawer: const Drawer(
         backgroundColor: Colors.white,
         child: DrawerLayoutClient(),
       ),
       appBar: AppBar(
-        leading: Image.asset('assets/logocoiffeur.png', width: 35, height: 35),
+        centerTitle: true,
+        title: Image.asset('assets/logocoiffeur.png', width: 60, height: 60),
         elevation: 0.0,
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(

@@ -104,7 +104,7 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                               });
                                               commandeInfoC.setHeure(heure);
                                             },
-                                            maxValue: 19,
+                                            maxValue: 17,
                                             minValue: 8,
                                           ),
                                         ),

@@ -195,6 +195,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
             controller: _naissance,
             decoration: InputDecoration(
               labelText: 'Date de naissance',
+              hintText: 'ex : 01 janvier 2020',
               labelStyle: TextStyle(
                 color: Colors.grey[400],
               ),
@@ -206,6 +207,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
             controller: _adresse,
             decoration: InputDecoration(
               labelText: 'adresse ',
+              hintText: 'ex : 10 boulevard de la liberté',
               labelStyle: TextStyle(
                 color: Colors.grey[400],
               ),
@@ -217,6 +219,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
             controller: _cpltadresse,
             decoration: InputDecoration(
               labelText: 'complement d\'adresse',
+              hintText: 'ex : 59000 Lille',
               labelStyle: TextStyle(
                 color: Colors.grey[400],
               ),
@@ -227,7 +230,8 @@ class _InscriptionClientState extends State<InscriptionClient> {
           TextFormField(
             controller: _description,
             decoration: InputDecoration(
-              labelText: "description",
+              labelText: "description de votre cheveux",
+              hintText: "cheveux long et blond",
               labelStyle: TextStyle(
                 color: Colors.grey[400],
               ),
@@ -263,6 +267,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
                             builder: (context) => const Connexion()));
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: secondarycolor,
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.all(14),
                   ),
@@ -285,9 +290,5 @@ class _InscriptionClientState extends State<InscriptionClient> {
         ]),
       ),
     )));
-  }
-
-  Future<String> createUser() async {
-    return "p02TgJm61xM9hRnEzI76HJclnr73";
   }
 }

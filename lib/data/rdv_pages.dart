@@ -4,6 +4,7 @@ import 'package:coiffeur/data/rdvdatabase.dart';
 import 'package:coiffeur/list/constant.dart';
 import 'package:coiffeur/list/detaillist.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,24 +19,8 @@ class _RdvPageState extends State<RdvPage> {
   late List<RdvPage> rdvs;
   bool isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-
-    refreshRdv();
-  }
-
-  @override
-  void dispose() {
-    SqfDatabase.instance.close();
-
-    super.dispose();
-  }
-
   Future refreshRdv() async {
     setState(() => isLoading = true);
-
-    rdvs = (await SqfDatabase.instance.readAllRdv()).cast<RdvPage>();
 
 // page téléchargemetn
     FirebaseFirestore.instance
@@ -66,7 +51,9 @@ class _RdvPageState extends State<RdvPage> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _alertes.where("coiffeuse.id", isEqualTo: "123").snapshots(),
+        stream: _alertes
+            .where("coiffeuse.id", isEqualTo: "qn26s2wIgkhrNXWSMPTmpgLt8Po2")
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
@@ -77,7 +64,9 @@ class _RdvPageState extends State<RdvPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DetailScreen(),
+                        builder: (context) => DetailScreen(
+                          alerte: data,
+                        ),
                       ),
                     );
                   },

@@ -3,7 +3,8 @@ import 'package:coiffeur/model/commande/commande.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
-import 'package:coiffeur/widgets/choixtaille.dart';
+import 'package:coiffeur/widgets/choixtailledomicile.dart';
+import 'package:coiffeur/widgets/choixtaillesalon.dart';
 import 'package:coiffeur/widgets/finalisationcommande.dart';
 import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
@@ -72,9 +73,12 @@ class _PageRechercheState extends State<PageRecherche> {
           PageChoixHoraire(
             pageController: pageController,
           ),
-          Choixtaille(
-            pageController: pageController,
-          ),
+          Container(
+              child: (commandeInfoC.lieu == "En salon")
+                  ? ChoixtailleSalon(
+                      pageController: pageController,
+                    )
+                  : ChoixtailleDomicile(pageController: pageController)),
           FinalisationCommande(
             pageController: pageController,
           )

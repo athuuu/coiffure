@@ -16,16 +16,6 @@ class Connexion extends StatefulWidget {
   State<Connexion> createState() => _ConnexionState();
 }
 
-class Prestation {
-  final int id;
-  final String nom;
-
-  Prestation({
-    required this.id,
-    required this.nom,
-  });
-}
-
 class _ConnexionState extends State<Connexion> {
   // ignore: prefer_final_fields
 

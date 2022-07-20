@@ -2,11 +2,11 @@ import 'package:coiffeur/list/constant.dart';
 
 import 'package:flutter/material.dart';
 
-
 class ProductPoster extends StatelessWidget {
   const ProductPoster({
     Key? key,
-    required this.size, required this.image,
+    required this.size,
+    required this.image,
   }) : super(key: key);
 
   final Size size;
@@ -16,23 +16,22 @@ class ProductPoster extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: kDefaultPadding),
-      height: size.width * 0.8,
-
+      height: size.width * 0.7,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
-            height: size.width * 0.7,
-            width: size.width * 0.7,
+            height: size.width * 0.6,
+            width: size.width * 0.6,
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
           ),
           Image.asset(
-           image,
-            height: size.width * 0.75,
-            width: size.width * 0.75,
+            image,
+            height: size.width * 0.65,
+            width: size.width * 0.65,
             fit: BoxFit.cover,
           )
         ],

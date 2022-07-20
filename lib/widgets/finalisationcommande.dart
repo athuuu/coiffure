@@ -51,71 +51,121 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
           if (streamSnapshot.hasData && streamSnapshot.data != null) {
             final documentSnapshot =
                 streamSnapshot.data!.data() as Map<String, dynamic>;
-            return Column(
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      const Text('nom et prenom',
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text(documentSnapshot['nom']),
-                      Text(documentSnapshot['prenom']),
-                      const Text("prestation",
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text(
-                        commandeInfoC.prestation!,
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    border: Border.all(color: secondarycolor, width: 2)),
+                child: Column(
+                  children: [
+                    const Text('Votre récapitulatif de commande',
+                        style: TextStyle(
+                          fontSize: firstsize,
+                        )),
+                    Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          const Text('Nom et Prénom',
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(documentSnapshot['nom']),
+                              const SizedBox(width: 5),
+                              Text(documentSnapshot['prenom']),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Text("Prestation",
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Text(
+                            commandeInfoC.prestation!,
+                          ),
+                          const SizedBox(height: 10),
+                          const Text('Date et heure',
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Text(
+                              "${commandeInfoC.heure} H ${commandeInfoC.mins}"),
+                          Text("${commandeInfoC.date}"),
+                          const SizedBox(height: 10),
+                          const Text('Adresse',
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Text(documentSnapshot['adresse']),
+                          const SizedBox(height: 10),
+                          const Text('Complément d\'adresse',
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Text(documentSnapshot['cpltadresse']),
+                          const SizedBox(height: 10),
+                          const Text('Prix',
+                              style: TextStyle(
+                                  fontWeight: firstweight,
+                                  fontSize: firstsize)),
+                          Text("${commandeInfoC.prix}€")
+                        ],
                       ),
-                      const Text('Dates et heures',
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text("${commandeInfoC.heure} H ${commandeInfoC.mins}"),
-                      Text("${commandeInfoC.date}"),
-                      const Text('Adresse',
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text(documentSnapshot['adresse']),
-                      const Text('complement d\'adresse',
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text(documentSnapshot['cpltadresse']),
-                      const Text('prix',
-                          style: TextStyle(fontWeight: firstweight)),
-                      Text("${commandeInfoC.prix}€")
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text('lieu de la prestation',
+                        style: TextStyle(
+                            fontWeight: firstweight, fontSize: firstsize)),
+                    Text(commandeInfoC.lieu!),
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.warning),
+                        SizedBox(width: 5),
+                        Text('Acompte sur reservation - 10€',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.resolveWith<
+                                OutlinedBorder>((_) {
+                              return RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20));
+                            }),
+                            backgroundColor:
+                                MaterialStateProperty.all(secondarycolor)),
+                        child: const Text('Prendre votre Rendez-vous'),
+                        onPressed: () async {
+                          await showDialog(
+                              context: context,
+                              builder: (_) => const AlertDialog(
+                                    title: Text('Vers la page de paiement '),
+                                  ));
+                          await addDataToFirebase(documentSnapshot);
+                          widget.pageController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text('Pensez a verifier si les infos sont corrects',
+                        style: TextStyle(color: Colors.red))
+                  ],
                 ),
-                const Text('lieu de la prestation',
-                    style: TextStyle(fontWeight: firstweight)),
-                Text(commandeInfoC.lieu!),
-                const Text('Acompte sur reservation - 10€'),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: 40,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.resolveWith<OutlinedBorder>(
-                                (_) {
-                          return RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20));
-                        }),
-                        backgroundColor:
-                            MaterialStateProperty.all(secondarycolor)),
-                    child: const Text('Prendre votre Rendez-vous'),
-                    onPressed: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (_) => const AlertDialog(
-                                title: Text('Vers la page de paiement '),
-                              ));
-                      await addDataToFirebase(documentSnapshot);
-                      widget.pageController.animateToPage(
-                        0,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                  ),
-                )
-              ],
+              ),
             );
           }
           if (streamSnapshot.hasError) {
@@ -136,6 +186,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
         "complement": documentSnapshot['cpltadresse'],
         "date": commandeInfoC.date,
         "heure": commandeInfoC.heure,
+        "minutes": commandeInfoC.mins,
         "prestation": commandeInfoC.prestation,
         "prix": commandeInfoC.prix,
         "coiffeuse": null,

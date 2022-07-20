@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/data/rdv_pages.dart';
+import 'package:coiffeur/pages/authentification/connexion.dart';
 
 import 'package:coiffeur/pages/user_profile/profil_coiffeuse_page.dart';
 import 'package:coiffeur/prestations/prest.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DrawerLayoutCoiffeur extends StatefulWidget {
@@ -231,7 +233,13 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                       color: secondarycolor,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Connexion()));
+                      },
                       child: const Text('deconnexion',
                           style: TextStyle(
                             fontSize: firstsize,

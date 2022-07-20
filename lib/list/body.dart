@@ -2,12 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:coiffeur/list/constant.dart';
 import 'package:coiffeur/list/product_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final _alertesRef = FirebaseFirestore.instance.collection('alertes');
+
 class BodyDetail extends StatefulWidget {
-  const BodyDetail({Key? key}) : super(key: key);
+  const BodyDetail({Key? key, required this.alerte}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final alerte;
 
   @override
   State<BodyDetail> createState() => _BodyDetailState();
@@ -15,8 +21,6 @@ class BodyDetail extends StatefulWidget {
 
 class _BodyDetailState extends State<BodyDetail> {
   final databaseReference = FirebaseFirestore.instance;
-  final CollectionReference _alertes =
-      FirebaseFirestore.instance.collection('alertes');
 
   late Map<String, dynamic> alertes;
 
@@ -24,223 +28,169 @@ class _BodyDetailState extends State<BodyDetail> {
   Widget build(BuildContext context) {
     // ça permet de fournir la hauteur et largeur total
     Size size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          decoration: const BoxDecoration(
-            color: kBackgroundColor,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
-            ),
-          ),
-          child: SizedBox(
-            height: 600,
-            width: 300,
-            child: StreamBuilder(
-                stream: _alertes.snapshots(),
-                builder:
-                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                  if (streamSnapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: streamSnapshot.data!.docs.length,
-                        itemBuilder: ((context, index) {
-                          final documentSnapshot =
-                              streamSnapshot.data!.docs[index].data()
-                                  as Map<String, dynamic>;
-                          alertes = documentSnapshot;
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Center(
-                                child: ProductPoster(
-                                  size: size,
-                                  image: 'assets/list3.png',
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 2),
-                                child: Text(
-                                    "Client : ${(documentSnapshot["nom"])} ${(documentSnapshot["prenom"])}",
-                                    style:
-                                        Theme.of(context).textTheme.headline6),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 2),
-                                child: Text(
-                                  "Prestation :  ${(documentSnapshot["prestation"])} ",
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 2),
-                                child: Text(
-                                  "adresse : ${(documentSnapshot["adresse"])}",
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 2),
-                                child: Text(
-                                  "complement d'adresse : ${(documentSnapshot["complement"])}",
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                              Text(
-                                "${(documentSnapshot["prix"])}" "€",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: kSecondaryColor,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 2),
-                                child: Text(
-                                  "le ${(documentSnapshot["date"] as Timestamp).toDate()}",
-                                  style: const TextStyle(color: kTextColor),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: kDefaultPadding,
-                              ),
-                            ],
-                          );
-                        }));
-                  }
-                  return const Text('rdv prévu');
-                }),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.all(kDefaultPadding),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return widget.alerte == null
+        ? const Center(child: CircularProgressIndicator())
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // if (_alertes.id == AuthFirebase.currentUser.uid)
-              ElevatedButton(
-                  onPressed: () async {
-                    await _alertes.doc("mmu69viyO8aahGky9Rxi").update(
-                      {
-                        "coiffeuse": {
-                          "id": "123",
-                          "name": "test",
-                        }
-                      },
-                    );
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    shape: const StadiumBorder(),
-                    padding: const EdgeInsets.all(14),
+              Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                decoration: const BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 10),
-                      Text(
-                        "Accepter",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
-                  )),
-              ElevatedButton(
-                  onPressed: () async {
-                    return showDialog<void>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Indications'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: const <Widget>[
-                                Text(
-                                    'Vous ne pouvez pas accepter votre rendez-vous!'),
-                                Text(
-                                    'Attendez qu\'un de nos prestataire accepte votre rendez-vous '),
-                              ],
-                            ),
+                ),
+                child: SizedBox(
+                    height: 605,
+                    width: 300,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: ProductPoster(
+                            size: size,
+                            image: 'assets/list3.png',
                           ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                    shape: const StadiumBorder(),
-                    padding: const EdgeInsets.all(14),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 10),
-                      Text(
-                        "Accepter",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
                         ),
-                      )
-                    ],
-                  )),
-              const SizedBox(
-                width: 10,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                              "Client : ${(widget.alerte["nom"])} ${(widget.alerte["prenom"])}",
+                              style: Theme.of(context).textTheme.headline6),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                            "Prestation :  ${(widget.alerte["prestation"])} ",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                            "adresse : ${(widget.alerte["adresse"])}",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                            "complement d'adresse : ${(widget.alerte["complement"])}",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                            "Date: le ${(widget.alerte["date"] as Timestamp).toDate()}",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.2),
+                          child: Text(
+                            "heure: ${(widget.alerte["heure"])} H ${(widget.alerte["minutes"])}",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Text(
+                          "${(widget.alerte["prix"])}" "€",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: kSecondaryColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: kDefaultPadding,
+                        ),
+                      ],
+                    )),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    shape: const StadiumBorder(),
-                    padding: const EdgeInsets.all(14),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 10),
-                      Text(
-                        "Refuser",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+              Container(
+                margin: const EdgeInsets.all(kDefaultPadding),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    // if (_alertes.id == AuthFirebase.currentUser.uid)
+                    ElevatedButton(
+                        onPressed: () async {
+                          String? currentUser =
+                              FirebaseAuth.instance.currentUser?.uid;
+                          await _alertesRef.doc(widget.alerte["id"]).update(
+                            {
+                              "coiffeuse": {
+                                "id": FirebaseAuth.instance.currentUser!.uid,
+                              }
+                            },
+                          );
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: const StadiumBorder(),
+                          padding: const EdgeInsets.all(14),
                         ),
-                      )
-                    ],
-                  )),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 10),
+                            Text(
+                              "Accepter",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )
+                          ],
+                        )),
+
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: const StadiumBorder(),
+                          padding: const EdgeInsets.all(14),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 10),
+                            Text(
+                              "Refuser",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+              ),
             ],
-          ),
-        ),
-      ],
-    );
+          );
   }
 }

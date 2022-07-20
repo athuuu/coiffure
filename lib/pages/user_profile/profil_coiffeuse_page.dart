@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
@@ -7,8 +9,10 @@ import 'package:coiffeur/pages/user_profile/client_numbers_widget.dart';
 import 'package:coiffeur/pages/user_profile/client_profil.dart';
 import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
 import 'package:coiffeur/utils/utils.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'coiffeuse_numbers_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +25,29 @@ class CoiffeusePageV2 extends StatefulWidget {
 }
 
 class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
+  Future uploadFile() async {
+    Reference storageRef = storage.ref("coiffeuse").child('visage.jpeg');
+    UploadTask uploadTask = storageRef.putFile(_image!);
+    // ignore: avoid_print
+    await uploadTask.whenComplete(() => print('File upload'));
+  }
+
+  File? _image;
+  final picker = ImagePicker();
+  Future getImage() async {
+    // ignore: deprecated_member_use
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        // ignore: avoid_print
+        print('pas d\'image selectionner ');
+      }
+    });
+  }
+
   get user => FirebaseAuth.instance.currentUser;
 
   final CollectionReference _compte =
@@ -65,18 +92,32 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                       const SizedBox(
                         height: 24,
                       ),
-                      Column(children: [
-                        Text(
-                          user.email ?? '',
-                          style: GoogleFonts.poppins(
-                              fontSize: 17,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                      ]),
+                      Column(
+                        children: [
+                          const ImageStorageCoiffeuse(),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(secondarycolor)),
+                            child: const Text('enregistrer une image'),
+                            onPressed: () {
+                              uploadFile();
+                            },
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            user.email ?? '',
+                            style: GoogleFonts.poppins(
+                                fontSize: 17,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 24,
                       ),
@@ -230,6 +271,13 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
               );
             }
           }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: secondarycolor,
+        child: const Icon(Icons.add_a_photo),
+        onPressed: () {
+          getImage();
+        },
+      ),
     );
   }
 
@@ -270,4 +318,71 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
               }),
         );
       });
+}
+
+class FireStorageService extends ChangeNotifier {
+  FireStorageService();
+  static Future<dynamic> loadImage(BuildContext context, String image) async {
+    return await FirebaseStorage.instance.ref().child(image).getDownloadURL();
+  }
+}
+
+Future<String> _getImage(BuildContext context, String imageName) async {
+  // ignore: unused_local_variable
+  Image image;
+  await FireStorageService.loadImage(context, imageName).then((value) {
+    image = Image.network(
+      value.toString(),
+      fit: BoxFit.scaleDown,
+    );
+  });
+  return imageName;
+}
+
+class ImageStorageCoiffeuse extends StatelessWidget {
+  const ImageStorageCoiffeuse({Key? key}) : super(key: key);
+
+  Future<String> getProfilImageCoiffeuse() async {
+    try {
+      Reference ref = storage.ref('coiffeuse').child('visage.jpeg');
+      String url = await ref.getDownloadURL();
+
+      return url;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String defaulUrl =
+        'https://oasys.ch/wp-content/uploads/2019/03/photo-avatar-profil.png';
+    return FutureBuilder<String>(
+      future: getProfilImageCoiffeuse(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          const Center(
+            child: CircleAvatar(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if ((snapshot.hasError) || (!snapshot.hasData)) {
+          Center(
+            child: CircleAvatar(
+              backgroundColor: secondarycolor,
+              backgroundImage: NetworkImage(defaulUrl),
+            ),
+          );
+        }
+        return Center(
+          child: CircleAvatar(
+            radius: 60,
+            backgroundColor: secondarycolor,
+            backgroundImage: NetworkImage(snapshot.data ?? defaulUrl),
+          ),
+        );
+      },
+    );
+  }
 }

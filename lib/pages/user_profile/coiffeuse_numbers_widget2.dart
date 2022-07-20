@@ -25,6 +25,7 @@ class _CoiffeuseNumbersWidget2State extends State<CoiffeuseNumbersWidget2> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
               ),
               Text("Lissage"),
+              SizedBox(height: 10)
             ],
           );
         });
