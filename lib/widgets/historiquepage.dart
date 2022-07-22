@@ -1,4 +1,5 @@
 import 'package:coiffeur/utils/utils.dart';
+import 'package:coiffeur/widgets/stockagerdvfinit.dart';
 import 'package:flutter/material.dart';
 
 class PageHistorique extends StatefulWidget {
@@ -45,7 +46,7 @@ class _PageHistoriqueState extends State<PageHistorique> {
                         children: [
                           const Text('Affichage des rendez-vous passés'),
                           Padding(
-                            padding: const EdgeInsets.only(right: 80.0),
+                            padding: const EdgeInsets.only(right: 50.0),
                             child: TextButton(
                                 child: const Text('REÇU',
                                     style: TextStyle(
@@ -103,7 +104,8 @@ class _PageHistoriqueState extends State<PageHistorique> {
                                           ));
                                 }),
                           )
-                        ])
+                        ]),
+                    const StockageRdv()
                   ]),
             ),
           )

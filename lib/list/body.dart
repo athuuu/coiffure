@@ -46,7 +46,7 @@ class _BodyDetailState extends State<BodyDetail> {
                   ),
                 ),
                 child: SizedBox(
-                    height: 605,
+                    height: 610,
                     width: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,19 +54,19 @@ class _BodyDetailState extends State<BodyDetail> {
                         Center(
                           child: ProductPoster(
                             size: size,
-                            image: 'assets/list3.png',
+                            image: 'assets/athu.jpeg',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.7),
                           child: Text(
                               "Client : ${(widget.alerte["nom"])} ${(widget.alerte["prenom"])}",
                               style: Theme.of(context).textTheme.headline6),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.7),
                           child: Text(
                             "Prestation :  ${(widget.alerte["prestation"])} ",
                             style: Theme.of(context).textTheme.headline6,
@@ -74,7 +74,7 @@ class _BodyDetailState extends State<BodyDetail> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.6),
                           child: Text(
                             "adresse : ${(widget.alerte["adresse"])}",
                             style: Theme.of(context).textTheme.headline6,
@@ -82,7 +82,7 @@ class _BodyDetailState extends State<BodyDetail> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.6),
                           child: Text(
                             "complement d'adresse : ${(widget.alerte["complement"])}",
                             style: Theme.of(context).textTheme.headline6,
@@ -90,7 +90,7 @@ class _BodyDetailState extends State<BodyDetail> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.6),
                           child: Text(
                             "Date: le ${(widget.alerte["date"] as Timestamp).toDate()}",
                             style: Theme.of(context).textTheme.headline6,
@@ -98,18 +98,26 @@ class _BodyDetailState extends State<BodyDetail> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding / 2.2),
+                              vertical: kDefaultPadding / 2.6),
                           child: Text(
                             "heure: ${(widget.alerte["heure"])} H ${(widget.alerte["minutes"])}",
                             style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
-                        Text(
-                          "${(widget.alerte["prix"])}" "€",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: kSecondaryColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.6),
+                          child: Text(
+                            "Lieu : ${(widget.alerte["lieu"])}",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2.6),
+                          child: Text(
+                            "prix : ${(widget.alerte["prix"])}" "€",
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         const SizedBox(
@@ -130,6 +138,7 @@ class _BodyDetailState extends State<BodyDetail> {
                     // if (_alertes.id == AuthFirebase.currentUser.uid)
                     ElevatedButton(
                         onPressed: () async {
+                          // ignore: unused_local_variable
                           String? currentUser =
                               FirebaseAuth.instance.currentUser?.uid;
                           await _alertesRef.doc(widget.alerte["id"]).update(

@@ -42,28 +42,11 @@ class _DrawerLayoutClientState extends State<DrawerLayoutClient> {
                   ),
                 ),
                 const SizedBox(
-                  width: 80,
-                  height: 80,
+                  width: 150,
+                  height: 150,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/visage.jpeg'),
+                    backgroundImage: AssetImage('assets/athu.jpeg'),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 40),
-                      child: Column(
-                        children: const [
-                          Text('Votre profil'),
-                          Text('membre depuis :',
-                              style: TextStyle(fontSize: 10)),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
                 const SizedBox(height: 100),
                 Row(

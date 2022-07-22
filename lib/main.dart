@@ -1,9 +1,9 @@
-import 'package:coiffeur/pages/accueil_client.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
 
 import 'package:coiffeur/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
 
@@ -22,12 +22,15 @@ Future<void> main() async {
       // ignore: avoid_print
       print('pas fais');
     } else {
-      const MyAppClient();
       // ignore: avoid_print
       print('fais: ' + user.email!);
     }
   });
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

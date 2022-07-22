@@ -86,7 +86,6 @@ class _BigContenuState extends State<BigContenu> {
         stream: _alertes.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamsnapshot) {
           // ignore: avoid_print
-          print("user uid : ${FirebaseAuth.instance.currentUser?.uid}");
 
           if (streamsnapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -98,7 +97,7 @@ class _BigContenuState extends State<BigContenu> {
               streamsnapshot.data == null ||
               streamsnapshot.data!.size == 0) {
             return const Center(
-              child: Text('Aucune donnée'),
+              child: Text('pas de nouveaux rendez-vous'),
             );
           }
 

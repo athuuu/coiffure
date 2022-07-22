@@ -7,11 +7,11 @@ part of 'person.dart';
 // **************************************************************************
 
 Person _$PersonFromJson(Map json) => Person(
-      id: json['id'] as int,
+      id: json['id'] as String?,
       nom: json['nom'] as String,
       prenom: json['prenom'] as String,
       mail: json['mail'] as String,
-      phone: json['phone'] as String,
+      phone: json['phone'] as String?,
       adresse: json['adresse'] as String,
       cpltadresse: json['cpltadresse'] as String,
       photo: json['photo'] as String?,

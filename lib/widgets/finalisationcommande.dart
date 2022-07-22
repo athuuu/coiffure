@@ -66,7 +66,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
                     Center(
                       child: Column(
                         children: [
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           const Text('Nom et Prénom',
                               style: TextStyle(
                                   fontWeight: firstweight,
@@ -79,7 +79,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
                               Text(documentSnapshot['prenom']),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           const Text("Prestation",
                               style: TextStyle(
                                   fontWeight: firstweight,
@@ -87,7 +87,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
                           Text(
                             commandeInfoC.prestation!,
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           const Text('Date et heure',
                               style: TextStyle(
                                   fontWeight: firstweight,
@@ -95,19 +95,19 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
                           Text(
                               "${commandeInfoC.heure} H ${commandeInfoC.mins}"),
                           Text("${commandeInfoC.date}"),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           const Text('Adresse',
                               style: TextStyle(
                                   fontWeight: firstweight,
                                   fontSize: firstsize)),
                           Text(documentSnapshot['adresse']),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           const Text('Complément d\'adresse',
                               style: TextStyle(
                                   fontWeight: firstweight,
                                   fontSize: firstsize)),
                           Text(documentSnapshot['cpltadresse']),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           const Text('Prix',
                               style: TextStyle(
                                   fontWeight: firstweight,
@@ -116,12 +116,12 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 7),
                     const Text('lieu de la prestation',
                         style: TextStyle(
                             fontWeight: firstweight, fontSize: firstsize)),
                     Text(commandeInfoC.lieu!),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 7),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -189,6 +189,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
         "minutes": commandeInfoC.mins,
         "prestation": commandeInfoC.prestation,
         "prix": commandeInfoC.prix,
+        "lieu": commandeInfoC.lieu,
         "coiffeuse": null,
         "clientId": FirebaseAuth.instance.currentUser?.uid
       }).then((value) async {

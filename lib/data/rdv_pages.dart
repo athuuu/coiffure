@@ -1,21 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/data/rdvdatabase.dart';
 
 import 'package:coiffeur/list/constant.dart';
 import 'package:coiffeur/list/detaillist.dart';
+import 'package:coiffeur/state/user_state.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RdvPage extends StatefulWidget {
+class RdvPage extends ConsumerStatefulWidget {
   const RdvPage({Key? key}) : super(key: key);
 
   @override
-  State<RdvPage> createState() => _RdvPageState();
+  ConsumerState<RdvPage> createState() => _RdvPageState();
 }
 
-class _RdvPageState extends State<RdvPage> {
+class _RdvPageState extends ConsumerState<RdvPage> {
   late List<RdvPage> rdvs;
   bool isLoading = false;
 
@@ -41,6 +42,7 @@ class _RdvPageState extends State<RdvPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userState = ref.watch(userStateProvider);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -51,10 +53,20 @@ class _RdvPageState extends State<RdvPage> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _alertes
-            .where("coiffeuse.id", isEqualTo: "qn26s2wIgkhrNXWSMPTmpgLt8Po2")
-            .snapshots(),
+        stream: userState.user!.idVendeur != null
+            ? _alertes
+                .where("coiffeuse.id",
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .snapshots()
+            : _alertes
+                .where("coiffeuse.id", isNull: false)
+                .where('clientId',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('error');
+          }
           if (snapshot.hasData) {
             return Column(
               children: snapshot.data!.docs.map((e) {
@@ -99,12 +111,12 @@ class _RdvPageState extends State<RdvPage> {
                           height: 160,
                           width: 200,
                           child: Image.asset(
-                            "assets/list1.png",
+                            "assets/athu.jpeg",
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      // nom de la prestation , date , client et prix
+
                       Positioned(
                         bottom: 0,
                         left: 0,

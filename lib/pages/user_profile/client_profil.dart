@@ -248,7 +248,7 @@ class ImageStorage extends StatelessWidget {
 
   Future<String> getProfilImage() async {
     try {
-      Reference ref = storage.ref('users').child('salmon.jpeg');
+      Reference ref = storage.ref('users').child('athu.jpeg');
       String url = await ref.getDownloadURL();
 
       return url;

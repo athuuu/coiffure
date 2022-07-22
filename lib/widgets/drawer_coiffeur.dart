@@ -40,33 +40,6 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                     splashRadius: 20,
                   ),
                 ),
-                const SizedBox(
-                  width: 80,
-                  height: 80,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/visage.jpeg'),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 40),
-                      child: Column(
-                        children: const [
-                          Text('test'),
-                          Text('membre depuis le 18/03/2022',
-                              style: TextStyle(fontSize: 10)),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit_calendar_outlined)),
-                  ],
-                ),
                 const SizedBox(height: 100),
                 Row(
                   children: [
@@ -101,23 +74,6 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                             builder: (context) => const Prestation()));
                       },
                       child: const Text('Prestations',
-                          style: TextStyle(
-                            fontSize: firstsize,
-                            color: secondarycolor,
-                          )),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.handyman_outlined,
-                      size: 40,
-                      color: secondarycolor,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('Reglages',
                           style: TextStyle(
                             fontSize: firstsize,
                             color: secondarycolor,

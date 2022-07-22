@@ -1,19 +1,15 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/connexion.dart';
 import 'package:coiffeur/pages/user_profile/client_numbers_widget.dart';
-
 import 'package:coiffeur/pages/user_profile/client_profil.dart';
-import 'package:coiffeur/pages/user_profile/coiffeuse_numbers_widget2.dart';
+
 import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'coiffeuse_numbers_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -152,7 +148,6 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                         height: 24,
                       ),
                       const CoiffeuseNumbersWidget(),
-                      const CoiffeuseNumbersWidget2(),
                       const ClientNumbersWidget(),
                       const SizedBox(
                         height: 48,
@@ -258,7 +253,6 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                                   height: 24,
                                 ),
                                 const ClientPageV2(),
-                                const CoiffeuseNumbersWidget2(),
                                 const SizedBox(
                                   height: 48,
                                 ),
@@ -275,7 +269,24 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
         backgroundColor: secondarycolor,
         child: const Icon(Icons.add_a_photo),
         onPressed: () {
-          getImage();
+          FutureBuilder(
+              future: _getImage(context, "users/athu.jpeg"),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    height: MediaQuery.of(context).size.height / 1.2,
+                    // child: snapshot.data,
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      child: const CircularProgressIndicator());
+                }
+                return Container();
+              });
         },
       ),
     );
@@ -322,21 +333,20 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
 
 class FireStorageService extends ChangeNotifier {
   FireStorageService();
-  static Future<dynamic> loadImage(BuildContext context, String image) async {
-    return await FirebaseStorage.instance.ref().child(image).getDownloadURL();
+  static Future<dynamic> loadImage(BuildContext context, String Image) async {
+    return await FirebaseStorage.instance.ref().child(Image).getDownloadURL();
   }
 }
 
-Future<String> _getImage(BuildContext context, String imageName) async {
-  // ignore: unused_local_variable
-  Image image;
+Future<Image?> _getImage(BuildContext context, String imageName) async {
+  Image? image;
   await FireStorageService.loadImage(context, imageName).then((value) {
     image = Image.network(
       value.toString(),
       fit: BoxFit.scaleDown,
     );
   });
-  return imageName;
+  return image;
 }
 
 class ImageStorageCoiffeuse extends StatelessWidget {

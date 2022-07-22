@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/pages/accueil_client.dart';
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/pages/authentification/inscriptionclient.dart';
+import 'package:coiffeur/state/user_state.dart';
 
 import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Connexion extends StatefulWidget {
   const Connexion({Key? key}) : super(key: key);
@@ -134,61 +136,65 @@ class _ConnexionState extends State<Connexion> {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 14),
                     child: Column(children: [
-                      ElevatedButton(
-                          onPressed: () async {
-                            try {
-                              var tmp = await loginToFirebase();
-                              setState(() => user = tmp);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => user == null ||
-                                              user['idVendeur'] == null
-                                          ? const MyAppClient()
-                                          : const MyAppCoiffeuse()));
-                            } on FirebaseAuthException catch (e) {
-                              switch (e.code) {
-                                case 'wrong-password':
-                                  print('wrong password');
-                                  showDialog(
-                                      context: context,
-                                      builder: (ctx) => const AlertDialog(
-                                          title: Text(
-                                              'Votre mot de passe est incorrect')));
-                                  break;
-                                case 'user-not-found':
-                                  print('user not found');
-                                  showDialog(
-                                      context: context,
-                                      builder: (ctx) => const AlertDialog(
-                                          title:
-                                              Text('utilisateur non trouvé')));
-                                  break;
-                                default:
-                                  print('an error occured, try later');
-                                  break;
+                      Consumer(builder: (context, ref, _) {
+                        final userState = ref.read(userStateProvider);
+                        return ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                var tmp = await loginToFirebase();
+                                await userState.getUser();
+                                setState(() => user = tmp);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => user == null ||
+                                                user['idVendeur'] == null
+                                            ? const MyAppClient()
+                                            : const MyAppCoiffeuse()));
+                              } on FirebaseAuthException catch (e) {
+                                switch (e.code) {
+                                  case 'wrong-password':
+                                    print('wrong password');
+                                    showDialog(
+                                        context: context,
+                                        builder: (ctx) => const AlertDialog(
+                                            title: Text(
+                                                'Votre mot de passe est incorrect')));
+                                    break;
+                                  case 'user-not-found':
+                                    print('user not found');
+                                    showDialog(
+                                        context: context,
+                                        builder: (ctx) => const AlertDialog(
+                                            title: Text(
+                                                'utilisateur non trouvé')));
+                                    break;
+                                  default:
+                                    print('an error occured, try later');
+                                    break;
+                                }
                               }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: secondarycolor,
-                            shape: const StadiumBorder(),
-                            padding: const EdgeInsets.all(14),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              SizedBox(width: 10),
-                              Text(
-                                "Connexion",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: secondarycolor,
+                              shape: const StadiumBorder(),
+                              padding: const EdgeInsets.all(14),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                SizedBox(width: 10),
+                                Text(
+                                  "Connexion",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
+                              ],
+                            ));
+                      }),
                       Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 40, vertical: 14),

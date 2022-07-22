@@ -5,11 +5,11 @@ part 'person.g.dart';
 @JsonSerializable()
 class Person {
   Person({
-    required this.id,
+    this.id,
     required this.nom,
     required this.prenom,
     required this.mail,
-    required this.phone,
+    this.phone,
     required this.adresse,
     required this.cpltadresse,
     this.photo,
@@ -20,11 +20,11 @@ class Person {
     this.idVendeur,
   });
 
-  final int id;
+  String? id;
   final String nom;
   final String prenom;
   final String mail;
-  final String phone;
+  String? phone;
   final String adresse;
   final String cpltadresse;
   String? photo;
