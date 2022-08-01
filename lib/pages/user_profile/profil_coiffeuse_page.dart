@@ -81,7 +81,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
                 backgroundColor: Colors.white,
                 body: Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -333,6 +333,7 @@ class _CoiffeusePageV2State extends State<CoiffeusePageV2> {
 
 class FireStorageService extends ChangeNotifier {
   FireStorageService();
+  // ignore: non_constant_identifier_names
   static Future<dynamic> loadImage(BuildContext context, String Image) async {
     return await FirebaseStorage.instance.ref().child(Image).getDownloadURL();
   }

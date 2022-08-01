@@ -81,23 +81,23 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.receipt_long_outlined,
-                      size: 40,
-                      color: secondarycolor,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('Factures',
-                          style: TextStyle(
-                            fontSize: firstsize,
-                            color: secondarycolor,
-                          )),
-                    )
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     const Icon(
+                //       Icons.receipt_long_outlined,
+                //       size: 40,
+                //       color: secondarycolor,
+                //     ),
+                //     TextButton(
+                //       onPressed: () {},
+                //       child: const Text('Factures',
+                //           style: TextStyle(
+                //             fontSize: firstsize,
+                //             color: secondarycolor,
+                //           )),
+                //     )
+                //   ],
+                // ),
                 Row(
                   children: [
                     const Icon(
@@ -120,66 +120,66 @@ class _DrawerLayoutCoiffeurState extends State<DrawerLayoutCoiffeur> {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.settings,
-                      size: 40,
-                      color: secondarycolor,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: Image.asset('assets/logocoiffeur.png',
-                                      width: 80, height: 80),
-                                  content: SizedBox(
-                                    height: 85,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('Pages non développer',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: firstweight)),
-                                        Text(
-                                            'les pages seront fait prochainement'),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                        ),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                secondarycolor),
-                                      ),
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Ok, J\'ai compris',
-                                          style:
-                                              TextStyle(color: primarycolor)),
-                                    ),
-                                  ],
-                                ));
-                      },
-                      child: const Text('Paramètres',
-                          style: TextStyle(
-                            fontSize: firstsize,
-                            color: secondarycolor,
-                          )),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     const Icon(
+                //       Icons.settings,
+                //       size: 40,
+                //       color: secondarycolor,
+                //     ),
+                //     TextButton(
+                //       onPressed: () {
+                //         showDialog<String>(
+                //             context: context,
+                //             builder: (BuildContext context) => AlertDialog(
+                //                   title: Image.asset('assets/logocoiffeur.png',
+                //                       width: 80, height: 80),
+                //                   content: SizedBox(
+                //                     height: 85,
+                //                     child: Column(
+                //                       crossAxisAlignment:
+                //                           CrossAxisAlignment.start,
+                //                       children: const [
+                //                         Text('Pages non développer',
+                //                             style: TextStyle(
+                //                                 fontSize: 20,
+                //                                 fontWeight: firstweight)),
+                //                         Text(
+                //                             'les pages seront fait prochainement'),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                   actions: <Widget>[
+                //                     TextButton(
+                //                       style: ButtonStyle(
+                //                         shape: MaterialStateProperty.all<
+                //                             OutlinedBorder>(
+                //                           RoundedRectangleBorder(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(20),
+                //                           ),
+                //                         ),
+                //                         backgroundColor:
+                //                             MaterialStateProperty.all<Color>(
+                //                                 secondarycolor),
+                //                       ),
+                //                       onPressed: () =>
+                //                           Navigator.pop(context, 'Cancel'),
+                //                       child: const Text('Ok, J\'ai compris',
+                //                           style:
+                //                               TextStyle(color: primarycolor)),
+                //                     ),
+                //                   ],
+                //                 ));
+                //       },
+                //       child: const Text('Paramètres',
+                //           style: TextStyle(
+                //             fontSize: firstsize,
+                //             color: secondarycolor,
+                //           )),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(height: 120),
                 Row(
                   children: [

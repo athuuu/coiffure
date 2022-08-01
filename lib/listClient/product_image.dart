@@ -1,4 +1,4 @@
-import 'package:coiffeur/list/constant.dart';
+import 'package:coiffeur/listClient/constant.dart';
 
 import 'package:flutter/material.dart';
 

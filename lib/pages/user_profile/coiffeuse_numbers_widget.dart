@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/state/user_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,7 +30,7 @@ class _CoiffeuseNumbersWidgetState
                 streamSnapshot.data?.data() as Map<String, dynamic>;
             return SizedBox(
               height: 95,
-              width: 300,
+              width: 340,
               child: Column(
                 children: [
                   const Text(

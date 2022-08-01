@@ -46,7 +46,7 @@ class _PageHistoriqueState extends State<PageHistorique> {
                         children: [
                           const Text('Affichage des rendez-vous passés'),
                           Padding(
-                            padding: const EdgeInsets.only(right: 50.0),
+                            padding: const EdgeInsets.only(right: 30.0),
                             child: TextButton(
                                 child: const Text('REÇU',
                                     style: TextStyle(
@@ -105,6 +105,14 @@ class _PageHistoriqueState extends State<PageHistorique> {
                                 }),
                           )
                         ]),
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: const Text('prochain rendez-vous',
+                          style:
+                              TextStyle(fontSize: 20, fontWeight: firstweight)),
+                    ),
                     const StockageRdv()
                   ]),
             ),

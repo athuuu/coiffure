@@ -69,6 +69,29 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
         children: [
           Column(
             children: [
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(secondarycolor),
+                ),
+                child: Text(
+                    dateTime == null
+                        ? 'choisissez une date'
+                        : dateTime.toString(),
+                    style: const TextStyle(color: primarycolor)),
+                onPressed: () {
+                  showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2019),
+                    lastDate: DateTime(2090),
+                  ).then((date) {
+                    setState(() {
+                      dateTime = date;
+                    });
+                    commandeInfoC.setDate(date!);
+                  });
+                },
+              ),
               SizedBox(
                 width: 220,
                 child: TextButton(
@@ -147,29 +170,6 @@ class _PageChoixHoraireState extends ConsumerState<PageChoixHoraire> {
                                 ),
                               ));
                     }),
-              ),
-              TextButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(secondarycolor),
-                ),
-                child: Text(
-                    dateTime == null
-                        ? 'choisissez une date'
-                        : dateTime.toString(),
-                    style: const TextStyle(color: primarycolor)),
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2019),
-                    lastDate: DateTime(2090),
-                  ).then((date) {
-                    setState(() {
-                      dateTime = date;
-                    });
-                    commandeInfoC.setDate(date!);
-                  });
-                },
               ),
             ],
           ),

@@ -108,7 +108,7 @@ class _ClientPageV2State extends State<ClientPageV2> {
                         ),
                       ]),
                       const SizedBox(
-                        height: 24,
+                        height: 20,
                       ),
                       ElevatedButton(
                           onPressed: () {
@@ -141,9 +141,6 @@ class _ClientPageV2State extends State<ClientPageV2> {
                         height: 24,
                       ),
                       const ClientNumbersWidget(),
-                      const SizedBox(
-                        height: 48,
-                      ),
                     ],
                   ),
                 ),
@@ -289,4 +286,11 @@ class ImageStorage extends StatelessWidget {
       },
     );
   }
+}
+
+void newData(String nom, String prenom) {
+  Map<String, String> data = {'nom': nom, 'prenom': prenom};
+  FirebaseFirestore.instance
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .update(data);
 }

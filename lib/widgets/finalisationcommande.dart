@@ -191,6 +191,7 @@ class _FinalisationCommandeState extends State<FinalisationCommande> {
         "prix": commandeInfoC.prix,
         "lieu": commandeInfoC.lieu,
         "coiffeuse": null,
+        "terminer": false,
         "clientId": FirebaseAuth.instance.currentUser?.uid
       }).then((value) async {
         await databaseReference

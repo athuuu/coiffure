@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:coiffeur/list/constant.dart';
-import 'package:coiffeur/list/detaillist.dart';
+import 'package:coiffeur/listClient/constant.dart';
+import 'package:coiffeur/listClient/detaillist.dart';
 import 'package:coiffeur/state/user_state.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';

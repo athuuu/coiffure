@@ -1,4 +1,4 @@
-import 'package:coiffeur/list/body.dart';
+import 'package:coiffeur/listClient/body.dart';
 import 'package:coiffeur/pages/user_profile/appbar_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -13,7 +13,9 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
-      body: BodyDetail(alerte: alerte),
+      body: BodyDetail(
+        alerte: alerte,
+      ),
     );
   }
 }

@@ -23,6 +23,8 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
 
   final TextEditingController _experience = TextEditingController();
 
+  final TextEditingController _adresseSalon = TextEditingController();
+
   // Future<void> _createUpdate([DocumentSnapshot? documentSnapshot]) async {
   //   if (documentSnapshot != null) {
   //     _mail.text = documentSnapshot['mail'];
@@ -118,6 +120,16 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               border: const OutlineInputBorder(),
             ),
           ),
+          const SizedBox(height: 10),
+          TextFormField(
+              controller: _adresseSalon,
+              decoration: InputDecoration(
+                labelText: "adresse du salon",
+                labelStyle: TextStyle(
+                  color: Colors.grey[400],
+                ),
+                border: const OutlineInputBorder(),
+              )),
           const SizedBox(height: 30),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
@@ -132,6 +144,7 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
                       "experience": _experience.text,
                       "prestation": _prestations.text,
                       "diplome": _diplome.text,
+                      "adresseSalon": _adresseSalon.text,
                     }).then((value) {
                       // ignore: avoid_print
                       print(FirebaseAuth.instance.currentUser!.uid);
