@@ -4,8 +4,38 @@ import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-// ignore: must_be_immutable
+class Diplome {
+  final int id;
+  final String name;
+
+  Diplome({
+    required this.id,
+    required this.name,
+  });
+}
+
+class Experience {
+  final int id;
+  final String annee;
+
+  Experience({
+    required this.id,
+    required this.annee,
+  });
+}
+
+class Prestations {
+  final int id;
+  final String nom;
+
+  Prestations({
+    required this.id,
+    required this.nom,
+  });
+}
+
 class InscriptionCoiffeuse extends StatefulWidget {
   const InscriptionCoiffeuse({Key? key}) : super(key: key);
 
@@ -14,6 +44,23 @@ class InscriptionCoiffeuse extends StatefulWidget {
 }
 
 class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
+  final List<Prestations?> _prestation = [
+    Prestations(id: 1, nom: "lissage"),
+    Prestations(id: 2, nom: "soins bottox"),
+    Prestations(id: 3, nom: "coupe "),
+  ];
+  final List<Experience?> _experiences = [
+    Experience(id: 1, annee: "- 1 an"),
+    Experience(id: 2, annee: "2-4 ans"),
+    Experience(id: 3, annee: "4-6 ans "),
+    Experience(id: 4, annee: "+6 ans ")
+  ];
+  final List<Diplome?> _diplomes = [
+    Diplome(id: 1, name: "baccalauréat"),
+    Diplome(id: 2, name: "cap coiffure"),
+    Diplome(id: 3, name: "license"),
+    Diplome(id: 4, name: "master")
+  ];
   final CollectionReference _compte =
       FirebaseFirestore.instance.collection('comptecoiffeuse');
 
@@ -98,6 +145,21 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               border: const OutlineInputBorder(),
             ),
           ),
+          MultiSelectChipField(
+            selectedChipColor: Colors.green,
+            title: const Text('vos prestations '),
+            headerColor: primarycolor,
+            textStyle: const TextStyle(color: primarycolor),
+            chipColor: Colors.red,
+            items: _prestation
+                .map((e) => MultiSelectItem(e, e?.nom ?? ''))
+                .toList(),
+            onTap: (value) {
+              setState(() {
+                _prestation;
+              });
+            },
+          ),
           const SizedBox(height: 10.0),
           TextFormField(
             controller: _experience,
@@ -109,6 +171,21 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               border: const OutlineInputBorder(),
             ),
           ),
+          MultiSelectChipField(
+            selectedChipColor: Colors.green,
+            title: const Text('votre expérience'),
+            headerColor: primarycolor,
+            textStyle: const TextStyle(color: primarycolor),
+            chipColor: Colors.red,
+            items: _experiences
+                .map((e) => MultiSelectItem(e, e?.annee ?? ''))
+                .toList(),
+            onTap: (value) {
+              setState(() {
+                _experiences;
+              });
+            },
+          ),
           const SizedBox(height: 10),
           TextFormField(
             controller: _diplome,
@@ -119,6 +196,21 @@ class _InscriptionCoiffeuseState extends State<InscriptionCoiffeuse> {
               ),
               border: const OutlineInputBorder(),
             ),
+          ),
+          MultiSelectChipField(
+            selectedChipColor: Colors.green,
+            title: const Text('vos dîplomes '),
+            headerColor: primarycolor,
+            textStyle: const TextStyle(color: primarycolor),
+            chipColor: Colors.red,
+            items: _diplomes
+                .map((e) => MultiSelectItem(e, e?.name ?? ''))
+                .toList(),
+            onTap: (value) {
+              setState(() {
+                _diplomes;
+              });
+            },
           ),
           const SizedBox(height: 10),
           TextFormField(

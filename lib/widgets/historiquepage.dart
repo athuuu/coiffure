@@ -1,5 +1,5 @@
 import 'package:coiffeur/utils/utils.dart';
-import 'package:coiffeur/widgets/stockagerdvfinit.dart';
+
 import 'package:flutter/material.dart';
 
 class PageHistorique extends StatefulWidget {
@@ -113,7 +113,6 @@ class _PageHistoriqueState extends State<PageHistorique> {
                           style:
                               TextStyle(fontSize: 20, fontWeight: firstweight)),
                     ),
-                    const StockageRdv()
                   ]),
             ),
           )

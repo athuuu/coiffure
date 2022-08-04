@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:coiffeur/widgets/card_choice.dart';
+import 'package:coiffeur/widgets/choix_coiffeuse.dart';
 import 'package:coiffeur/widgets/gender_choice.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,6 @@ class PageChoixPresta extends StatefulWidget {
 }
 
 class _PageChoixPrestaState extends State<PageChoixPresta> {
-  bool isChecked = false;
   final CollectionReference _prestas =
       FirebaseFirestore.instance.collection('prestas');
 
@@ -70,14 +70,43 @@ class _PageChoixPrestaState extends State<PageChoixPresta> {
                         return CardChoice(
                           title: "${documentSnapshot["prestation"]} ",
                           subtitle: "environ ${documentSnapshot["temps"]} ",
-                          onPressed: () {
-                            widget.pageController.animateToPage(
-                              2,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
+                          onPressed: () async {
                             commandeInfoC
                                 .setPrestation(documentSnapshot["prestation"]);
+                            if (commandeInfoC.prestation == "lissage") {
+                              final result = await showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const SizedBox(
+                                        height: 600,
+                                        child: ChoixCoiffeuse(
+                                          pageController: null,
+                                        ));
+                                  });
+
+                              if (result != null) {
+                                widget.pageController.animateToPage(2,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut);
+                              }
+                            } else if (commandeInfoC.prestation ==
+                                "soin bottox") {
+                              final result = await showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const SizedBox(
+                                        height: 600,
+                                        child: ChoixCoiffeuse(
+                                          pageController: null,
+                                        ));
+                                  });
+
+                              if (result != null) {
+                                widget.pageController.animateToPage(2,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut);
+                              }
+                            }
                           },
                         );
                       }),

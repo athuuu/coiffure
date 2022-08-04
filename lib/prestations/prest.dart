@@ -1,4 +1,4 @@
-import 'package:coiffeur/listClient/list.dart';
+import 'package:coiffeur/listClient/list_client.dart';
 import 'package:coiffeur/pages/accueil_coiffeuse.dart';
 import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';

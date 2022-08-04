@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:coiffeur/listClient/constant.dart';
 import 'package:coiffeur/listClient/product_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
+// ignore: unused_element
 final _alertesRefCoiffeuses =
     FirebaseFirestore.instance.collection('alertescoiffeuses');
 

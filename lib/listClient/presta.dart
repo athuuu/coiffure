@@ -17,7 +17,7 @@ List<Presta> prestation = [
     client: "",
     rdv: "",
     prestation: "",
-    image: "assets/list3.png",
+    image: "",
     description: "",
   ),
 ];

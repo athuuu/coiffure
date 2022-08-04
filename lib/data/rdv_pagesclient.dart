@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RdvPage extends ConsumerStatefulWidget {
-  const RdvPage({Key? key}) : super(key: key);
+class RdvPageClient extends ConsumerStatefulWidget {
+  const RdvPageClient({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RdvPage> createState() => _RdvPageState();
+  ConsumerState<RdvPageClient> createState() => _RdvPageClientState();
 }
 
-class _RdvPageState extends ConsumerState<RdvPage> {
-  late List<RdvPage> rdvs;
+class _RdvPageClientState extends ConsumerState<RdvPageClient> {
+  late List<RdvPageClient> rdvs;
   bool isLoading = false;
 
   Future refreshRdv() async {
@@ -25,12 +25,12 @@ class _RdvPageState extends ConsumerState<RdvPage> {
 
 // page téléchargemetn
     FirebaseFirestore.instance
-        .collection('alertes')
+        .collection('alertescoiffeuse')
         .where('accepted', isEqualTo: true);
 
 // page validation
     FirebaseFirestore.instance
-        .collection('alertes')
+        .collection('alertescoiffeuse')
         .where('accepted', isEqualTo: false)
         .where('declined', isEqualTo: false);
 
@@ -38,7 +38,7 @@ class _RdvPageState extends ConsumerState<RdvPage> {
   }
 
   final CollectionReference _alertes =
-      FirebaseFirestore.instance.collection('alertes');
+      FirebaseFirestore.instance.collection('alertescoiffeuse');
 
   @override
   Widget build(BuildContext context) {

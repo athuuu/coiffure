@@ -2,14 +2,16 @@ import 'package:coiffeur/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class CardChoice extends StatelessWidget {
-  const CardChoice({
-    Key? key,
-    this.onPressed,
-    required this.title,
-    this.fontSize = 20,
-    this.subtitle,
-  }) : super(key: key);
+  const CardChoice(
+      {Key? key,
+      this.onPressed,
+      required this.title,
+      this.fontSize = 20,
+      this.subtitle,
+      this.image})
+      : super(key: key);
   final Function()? onPressed;
+  final String? image;
   final String title;
   final String? subtitle;
   final double? fontSize;

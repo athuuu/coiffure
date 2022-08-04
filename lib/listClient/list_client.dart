@@ -31,8 +31,7 @@ class ListPresta extends StatelessWidget {
                 ),
               ),
               ListView.builder(
-                itemCount: prestation
-                    .length, //voir presta.dart si tu veux utiliser la list locale
+                itemCount: prestation.length,
                 itemBuilder: (context, index) => BigContenu(
                   itemIndex: index,
                   presta: prestation[index],

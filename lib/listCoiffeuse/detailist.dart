@@ -1,4 +1,3 @@
-import 'package:coiffeur/listClient/body.dart';
 import 'package:coiffeur/listCoiffeuse/body.dart';
 import 'package:coiffeur/pages/user_profile/appbar_widget.dart';
 

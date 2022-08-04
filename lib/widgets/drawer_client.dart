@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coiffeur/data/rdv_pages.dart';
+
+import 'package:coiffeur/data/rdv_pagescoiffeuses.dart';
+
 import 'package:coiffeur/pages/authentification/connexion.dart';
 import 'package:coiffeur/pages/authentification/inscriptioncoiffeuse.dart';
 
@@ -74,7 +76,8 @@ class _DrawerLayoutClientState extends State<DrawerLayoutClient> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RdvPage()));
+                                builder: (context) =>
+                                    const RdvPageCoiffeuses()));
                       },
                       child: const Text('Vos Rdv',
                           style: TextStyle(

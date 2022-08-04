@@ -7,7 +7,7 @@ class StockageRdv extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         child: Column(children: [
-      Container(
+      SizedBox(
         child: Row(
           children: [
             const SizedBox(height: 5),

@@ -27,6 +27,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
   final TextEditingController _description = TextEditingController();
   final TextEditingController _adresse = TextEditingController();
   final TextEditingController _cpltadresse = TextEditingController();
+  final TextEditingController _genre = TextEditingController();
 
   Future<void> addUser(String userID, String pseudo, String naissance) {
     return firestore
@@ -228,6 +229,17 @@ class _InscriptionClientState extends State<InscriptionClient> {
           ),
           const SizedBox(height: 10.0),
           TextFormField(
+            controller: _genre,
+            decoration: InputDecoration(
+              labelText: 'Genre',
+              labelStyle: TextStyle(
+                color: Colors.grey[400],
+              ),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          TextFormField(
             controller: _description,
             decoration: InputDecoration(
               labelText: "description de votre cheveux",
@@ -258,6 +270,7 @@ class _InscriptionClientState extends State<InscriptionClient> {
                         "description": _description.text,
                         "adresse": _adresse.text,
                         "cpltadresse": _cpltadresse.text,
+                        "genre": _genre.text,
                       });
                     }
 

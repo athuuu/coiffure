@@ -28,14 +28,14 @@ class _GenderChoiceState extends State<GenderChoice> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Text('Je suis un :  '),
+          const Text('Que souhaitez-vous :  '),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CardChoice(
-                  title: "Homme",
+                  title: "J'aimerai une coiffeuse en particulier",
                   onPressed: () {
                     setState(() {
                       isSelected = true;
@@ -49,7 +49,7 @@ class _GenderChoiceState extends State<GenderChoice> {
                   },
                 ),
                 CardChoice(
-                  title: "Femme",
+                  title: "je n'ai pas de coiffeuse en tête",
                   onPressed: () {
                     setState(() {
                       isSelected = false;

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coiffeur/model/commande/commande.dart';
 import 'package:coiffeur/utils/utils.dart';
+
 import 'package:coiffeur/widgets/choixhoraire.dart';
 import 'package:coiffeur/widgets/choixprestation.dart';
 import 'package:coiffeur/widgets/choixtailledomicile.dart';
@@ -20,6 +21,7 @@ class _PageRechercheState extends State<PageRecherche> {
   final databaseReference = FirebaseFirestore.instance;
   final PageController pageController = PageController();
   int indexPage = 0;
+
   CommandeInfos commandeInfo = CommandeInfos();
 
   @override
@@ -104,6 +106,7 @@ class _PersonChoiceState extends State<PersonChoice> {
     setState(() {
       _counter++;
     });
+
     commandeinfo.commande = Commande(nombre: _counter);
     // ignore: avoid_print
     print(commandeinfo.commande!.getNombre);
